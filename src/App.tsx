@@ -1,13 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Colors } from './constants/Colors';
-import LoginPage from './pages/LoginPage';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Colors } from "./constants/Colors";
+import AppRouter from "./routes";
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Store from "./app/stote";
+
+const client = new ApolloClient({
+  uri: "http://127.0.0.1:8000/graphql",
+  cache: new InMemoryCache(),
+});
 
 function App() {
   return (
-    <div className="App" style={{backgroundColor:Colors.addson, height:"100vh"}}>
-      <LoginPage />
+    <div
+      className="App"
+      style={{ backgroundColor: Colors.addson, height: "100vh" }}
+    >
+      <Provider store={Store}>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </ApolloProvider>
+      </Provider>
     </div>
   );
 }

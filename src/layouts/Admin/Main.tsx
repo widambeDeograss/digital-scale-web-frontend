@@ -1,24 +1,26 @@
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Layout, Drawer, Affix } from "antd";
-import Sidenav from "./Sidenav";
+import Sidenav from "./SideBar";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Colors } from "../../constants/Colors";
+import { Outlet } from "react-router-dom";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children }) {
+function Main({children}:any) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
-  const [sidenavColor, setSidenavColor] = useState("#1890ff");
+  const [sidenavColor, setSidenavColor] = useState(Colors.primary);
   const [sidenavType, setSidenavType] = useState("transparent");
   const [fixed, setFixed] = useState(false);
 
   const openDrawer = () => setVisible(!visible);
-  const handleSidenavType = (type) => setSidenavType(type);
-  const handleSidenavColor = (color) => setSidenavColor(color);
-  const handleFixedNavbar = (type) => setFixed(type);
+  const handleSidenavType = (type:any) => setSidenavType(type);
+  const handleSidenavColor = (color:any) => setSidenavColor(color);
+  const handleFixedNavbar = (type:any) => setFixed(type);
 
   let { pathname } = useLocation();
   pathname = pathname.replace("/", "");
@@ -45,6 +47,7 @@ function Main({ children }) {
         visible={visible}
         key={placement === "right" ? "left" : "right"}
         width={250}
+        
         className={`drawer-sidebar ${
           pathname === "rtl" ? "drawer-sidebar-rtl" : ""
         } `}
@@ -61,7 +64,7 @@ function Main({ children }) {
             className={`sider-primary ant-layout-sider-primary ${
               sidenavType === "#fff" ? "active-route" : ""
             }`}
-            style={{ background: sidenavType }}
+            style={{backgroundColor:Colors.primary}}
           >
             <Sidenav color={sidenavColor} />
           </Sider>
@@ -94,6 +97,7 @@ function Main({ children }) {
                 handleSidenavColor={handleSidenavColor}
                 handleSidenavType={handleSidenavType}
                 handleFixedNavbar={handleFixedNavbar}
+
               />
             </AntHeader>
           </Affix>
@@ -109,7 +113,9 @@ function Main({ children }) {
             />
           </AntHeader>
         )}
-        <Content className="content-ant">{children}</Content>
+        <Content className="content-ant">
+          <Outlet />
+        </Content>
         <Footer />
       </Layout>
     </Layout>

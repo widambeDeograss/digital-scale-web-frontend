@@ -24,7 +24,13 @@ import {
 } from "antd";
 import type { CSSProperties } from "react";
 import { useState } from "react";
-import { Colors } from "../constants/Colors";
+import { Colors } from "../../constants/Colors";
+import { useDispatch } from "react-redux";
+import { useMutation, gql } from "@apollo/client";
+import { login } from "../../app/Query";
+import { log } from "console";
+import { loginAuth } from "../../app/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 type LoginType = "phone" | "account";
 
@@ -51,6 +57,59 @@ type FieldType = {
 
 export default function LoginPage() {
     const [loginType, setLoginType] = useState<LoginType>("phone");
+    const [isloading, setisloading] = useState(false);
+    const [userLogin, { data, loading, error }] = useMutation(login);
+    const dispatch = useDispatch();
+    const [errorMsg, setErrorMsg] = useState<String>();
+    const [sovereignty, setsovereignty] = useState("warning");
+    const navigation = useNavigate()
+  
+    // function onChange() {
+    //   console.log(`switch to ${checked}`);
+    // }
+  
+    const onFinish = async (values:FieldType) => {
+      setisloading(true);
+      try {
+      
+      const response =  await userLogin({ variables: {
+        username:values.username,
+        password:values.password
+       }});
+      //  console.log(response);
+       
+       const { error, user, token } = response.data?.login
+
+        if (token) {
+          if (user?.role === "A_1" || user?.role === "A_2") {
+            console.log(user)
+            const localStorageUser = {
+              user: user,
+             };
+             localStorage.setItem("user", JSON.stringify(localStorageUser));
+             const userdata = { user:user, token:token };
+             localStorage.setItem("token", token);
+             dispatch(loginAuth({ ...userdata }));
+             navigation("/dashboard")
+          } else {
+            navigation("/login"); 
+          }
+        } else {
+          
+          setErrorMsg(error?.validationErrors[0].messages[0]);
+        }
+  
+      } catch (error:any) {
+  
+        setsovereignty("error");
+        setErrorMsg(error.message);
+      }
+      setisloading(false);
+    };
+  
+    const onFinishFailed = (errorInfo:any) => {
+      console.log("Failed:", errorInfo);
+    };
 
     return (
         <div 
@@ -65,7 +124,7 @@ export default function LoginPage() {
                  
 
                     <Layout.Content className="signin">
-            <Row gutter={[24, 0]} justify="space-around">
+            <Row gutter={[24, 0]} justify="space-around" className="">
             {/* <Col
                 className="sign-img"
                 style={{ padding: 12 }}
@@ -84,7 +143,7 @@ export default function LoginPage() {
                 lg={{ span: 6, offset: 2 }}
                 md={{ span: 12 }}
                 style={{ padding: 30 }}
-                className="my-auto border-gray-100  border-r-2 shadow-lg rounded-lg mt-10" 
+                className="my-auto border-gray-100  border-r-2 shadow-lg  rounded-lg mt-10" 
               >
                 <div className="">
                         <h1 className="text-2xl m/font-bold">E-mzani</h1>
@@ -96,16 +155,23 @@ export default function LoginPage() {
                             </span>
                         </Divider>
                     </div>
+              
                 <Form
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   layout="vertical"
                   className="row-col"
                 >
-                  <Form.Item
+                  
+                  <div className="">
+                   {errorMsg && (
+                <h3 className="text-lg text-red-800 text-center whitespace-pre-wrap">{errorMsg}!!</h3>
+              )}
+                   </div>
+                                   <Form.Item
                     className="username "
                     label="Email"
-                    name="email"
+                    name="username"
                     rules={[
                       {
                         required: true,
@@ -113,7 +179,7 @@ export default function LoginPage() {
                       },
                     ]}
                   >
-                    <Input placeholder="Email" className="h-10"/>
+                    <Input placeholder="Email" type="email"/>
                   </Form.Item>
 
                   <Form.Item
@@ -127,7 +193,7 @@ export default function LoginPage() {
                       },
                     ]}
                   >
-                    <Input placeholder="Password" className="h-10"/>
+                    <Input.Password />
                   </Form.Item>
 
                   <Form.Item
@@ -140,13 +206,25 @@ export default function LoginPage() {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      style={{ width: "100%", backgroundColor:Colors.primary }}
-                    >
-                      SIGN IN
-                    </Button>
+                  {loading ? (
+                  <Button
+                    style={{ width: "100%" }}
+                    type="primary"
+                    htmlType="submit"
+                    loading
+                  >
+                    Signing in...
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ width: "100%" }}
+                    type="primary"
+                    htmlType="submit"
+                    
+                  >
+                    SIGN IN
+                  </Button>
+                )}
                   </Form.Item>
                   <p className="font-semibold text-muted">
                     Don't have an account?{" "}

@@ -1,1 +1,62 @@
-export{}
+import React, {useState, useEffect} from 'react';
+import LoginPage from '../pages/auth/LoginPage';
+import Main from '../layouts/Admin/Main';
+import { BrowserRouter as Router, Navigate, useRoutes } from 'react-router-dom';
+import AdminHome from '../pages/Dashboard/AdminHome';
+import PageNotFound from '../components/PageNotFound';
+import CorporateAdminHome from '../pages/Dashboard/CorporateAdminHome';
+import RequireAuth from '../app/RequireAuth';
+import { selectCurrentToken } from '../app/AuthSlice';
+import { selectCurrentUser } from '../app/AuthSlice';
+import { useSelector } from 'react-redux';
+import Farmers from '../pages/farmers/Farmers';
+import AddFarmers from '../pages/farmers/AddFarmers';
+import { RegistrationPage } from '../pages/auth/RegistrationPage';
+
+
+type userType = {
+  id:String
+  role:String
+   
+}
+
+const AppRouter = () => {
+  const token = useSelector(selectCurrentToken);
+ 
+ 
+  <Router></Router>;
+    const routes = useRoutes([
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegistrationPage />,
+      },
+      {
+        path: "/*",
+        element:  token
+        ? <Main/>
+        : <Navigate to="/login"  />,
+        children: [
+          { element: <Navigate to="/dashboard" />, index: true },
+          { path: "dashboard", element:  <AdminHome/> },
+          { path: "farmers", element:  <Farmers/> },
+          { path: "addfarmer_to_society", element:  <AddFarmers/> },
+        ],
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
+      },
+      {
+        path: "/404",
+        element: <PageNotFound />,
+      }
+    ]);
+  
+    return routes;
+}
+
+export default AppRouter

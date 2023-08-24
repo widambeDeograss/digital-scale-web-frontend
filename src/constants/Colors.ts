@@ -6,7 +6,7 @@
 // }
 
 export const Colors = {
-    primary:"#a3c733",
+    primary:"#4e6304",
     secondary:"#eef5d6",
     accent:"#a9cc33",
     addson:"#f2f8f8"
