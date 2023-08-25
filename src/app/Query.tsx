@@ -76,6 +76,15 @@ query {
      createdAt
      region
      district
+     corporatecropsSet{
+      id
+        crop{
+          id
+          name
+          priceperkg
+          moisturePercentage
+        }
+      }
      farmersSet{
       id
       farmer{
@@ -143,6 +152,47 @@ query {
     role
     username
     password
+  }
+}
+
+`
+
+export const addCorporateCrops = gql
+`
+mutation addCorporateCrops($corporate: String!, $crop: String!){
+  addCorporateCrops(corporate:$corporate, crop:$crop)
+  {
+    errors,
+    success
+  }
+}
+`
+
+export const allCrops = gql
+`
+query{
+  crops{
+    id,
+    priceperkg,
+    moisturePercentage,
+    name
+  }
+}
+`
+
+export const AllcorporateCrops = gql
+`
+query corporateCrops($corporate: String!){
+  corporateCrops(corporate:$corporate){
+    id,
+    crop{
+      name
+      id
+    },
+    corporate{
+      name
+      id
+    }
   }
 }
 

@@ -12,6 +12,9 @@ import { useSelector } from 'react-redux';
 import Farmers from '../pages/farmers/Farmers';
 import AddFarmers from '../pages/farmers/AddFarmers';
 import { RegistrationPage } from '../pages/auth/RegistrationPage';
+import CropsList from '../pages/Crops/CropsList';
+import AddCrops from '../pages/Crops/AddCrops';
+import CorporateCrops from '../pages/Crops/CorporateCrops';
 
 
 type userType = {
@@ -44,6 +47,9 @@ const AppRouter = () => {
           { path: "dashboard", element:  <AdminHome/> },
           { path: "farmers", element:  <Farmers/> },
           { path: "addfarmer_to_society", element:  <AddFarmers/> },
+          { path: "cropsList", element:  <CropsList/> },
+          { path: "AddCrops", element:  <AddCrops/> },
+          { path: "corporateCrops", element:  <CorporateCrops/> },
         ],
       },
       {

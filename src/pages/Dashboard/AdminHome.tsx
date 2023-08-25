@@ -189,9 +189,11 @@ const AdminHome = () => {
   const [reverse, setReverse] = useState(false);
   const [role, setrole] = useState("")
   // const { role }:any = user?.user;
+ 
   
   useEffect(() => {
     if (currentUser) {
+      // window.location.reload()
       const { role } = currentUser.user;
       setrole(role)
       console.log(role);

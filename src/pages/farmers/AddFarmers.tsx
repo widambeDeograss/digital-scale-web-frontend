@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import {
   Card,
   Col,
@@ -24,6 +23,7 @@ import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import { allUsers, AddFarmer, corporates } from "../../app/Query";
+import { useNavigate } from "react-router-dom";
 
 
 type societyDataType = {
@@ -45,7 +45,7 @@ const AddFarmers = () => {
     const {data:corporate} = useQuery(corporates);
     const [usersToselect, setusersToselect] = useState([])
     const [role, setrole] = useState("")
-    // const { role }:any = user?.user;
+    const navigate = useNavigate()
     
     useEffect(() => {
         async function loadData () {
@@ -89,10 +89,11 @@ const AddFarmers = () => {
          
          const { error, success } = response.data
   
-          if (error) {
-            setErrorMsg("something went wrong try again later!");
+          if (success) {
+            //NOTIFACTION
+            navigate("/farmers")
           } else {   
-        
+            setErrorMsg("something went wrong try again later!");
           }
     
         } catch (error:any) {

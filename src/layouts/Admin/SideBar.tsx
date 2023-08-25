@@ -220,33 +220,39 @@ function Sidenav({ color }: colors) {
         </Menu.Item>
 
         <Menu.Item className="menu-item-header" key="5">
-          Account Pages
+          CROPS MANAGEMENT
         </Menu.Item>
-        <Menu.Item key="6">
-          <NavLink to="/profile">
-            <span
-              className="icon"
-              style={{
-                background: page === "profile" ? color : "",
-              }}
-            >
-              {profile}
-            </span>
-            <span className="label">Profile</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="7">
-          <NavLink to="/sign-in">
-            <span className="icon">{signin}</span>
-            <span className="label">Sign In</span>
-          </NavLink>
-        </Menu.Item>
+        {role === "A_1" && (
+          <>
+           <Menu.Item key="6">
+           <NavLink to="/cropsList">
+             <span
+               className="icon"
+               style={{
+                 background: page === "profile" ? color : "",
+               }}
+             >
+               {profile}
+             </span>
+             <span className="label">Crops list</span>
+           </NavLink>
+         </Menu.Item>
+         <Menu.Item key="7">
+           <NavLink to="/AddCrops">
+             <span className="icon">{signin}</span>
+             <span className="label">Add crops</span>
+           </NavLink>
+         </Menu.Item>
+          </>
+        )}
+           {role === "A_2" && (
         <Menu.Item key="8">
-          <NavLink to="/sign-up">
+          <NavLink to="/corporateCrops">
             <span className="icon">{signup}</span>
-            <span className="label">Sign Up</span>
+            <span className="label">Corporate crops</span>
           </NavLink>
         </Menu.Item>
+        )}
       </Menu>
       <div className="aside-footer">
         <div
