@@ -92,7 +92,10 @@ const Societies = () => {
                      <Column title="createdAt" dataIndex="createdAt" key="createdAt" />
                   <Column
      
-                    render={(crop) =>  <Button>View</Button>}
+                    render={(crop) =>  <Button
+                    
+                    onClick={ () => navigate("/corporate_descript")}
+                    >View</Button>}
                   />
                  
                 

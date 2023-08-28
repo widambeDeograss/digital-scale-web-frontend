@@ -17,6 +17,7 @@ import AddCrops from '../pages/Crops/AddCrops';
 import CorporateCrops from '../pages/Crops/CorporateCrops';
 import Societies from '../pages/CorporateSociety/Societies';
 import AddSociety from '../pages/CorporateSociety/AddSociety';
+import CorporateDsc from '../pages/CorporateSociety/CorporateDsc';
 
 
 type userType = {
@@ -54,6 +55,7 @@ const AppRouter = () => {
           { path: "corporateCrops", element:  <CorporateCrops/> },
           { path: "all_corporates", element:  <Societies/> },
           { path: "addCorporates", element:  <AddSociety/> },
+          { path: "corporate_descript", element:  <CorporateDsc/> },
         ],
       },
       {

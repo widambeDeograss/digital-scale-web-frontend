@@ -66,7 +66,6 @@ const CorporateCrops = () => {
           const society = data?.corporateSocieties.find(
             (soc: any) => soc.admin.id === currentUser.user.id
           );
-          setsocietyData(society);
         }
         // Check if role is defined here
       } else {
@@ -74,9 +73,7 @@ const CorporateCrops = () => {
       }
     }, [currentUser]);
   
-    console.log(societyData);
     
-  console.log(crops);
   
   return (
     <div>
