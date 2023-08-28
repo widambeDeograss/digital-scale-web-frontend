@@ -108,9 +108,9 @@ const Farmers = () => {
               <>
                 <Radio.Group onChange={onChange} defaultValue="a">
                   <Radio.Button value="a">REPORT</Radio.Button>
-                  <Button 
+                  {/* <Button 
                   onClick={() => navigate("/addfarmer_to_society")}
-                  >Add</Button>
+                  >Add</Button> */}
                 </Radio.Group>
               </>
             }

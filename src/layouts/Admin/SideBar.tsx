@@ -192,11 +192,11 @@ function Sidenav({ color }: colors) {
         </Menu.Item>
         {role === "A_1" && (
           <Menu.Item key="2">
-            <NavLink to="/tables">
+            <NavLink to="/all_corporates">
               <span
                 className="icon"
                 style={{
-                  background: page === "tables" ? color : "",
+                  background: page === "all_corporates" ? color : "",
                 }}
               >
                 {tables}

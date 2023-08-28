@@ -72,6 +72,7 @@ query {
       name
      admin{
        id
+       fullName
      }
      createdAt
      region
@@ -193,6 +194,39 @@ query corporateCrops($corporate: String!){
       name
       id
     }
+  }
+}
+
+`
+
+
+export const createSociety = gql 
+`
+mutation createSociety($admin: String!, $name: String!, $region: String!, $district: String! ){
+  createSociety(admin:$admin, name:$name, region:$region, district:$district) { 
+    errors	
+   success
+     corporateSociety{
+      id
+       name
+      admin{
+        username
+      }
+      createdAt
+      region
+      district
+      
+      
+    }
+  }
+}
+`
+export const addCrops = gql `
+
+mutation addCrops($name: String!, $priceperkg: Float!, $moisturePercentage: Float!){
+  addCrops(name:$name, priceperkg:$priceperkg, moisturePercentage:$moisturePercentage){
+    errors,
+    success
   }
 }
 

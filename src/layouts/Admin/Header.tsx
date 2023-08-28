@@ -171,8 +171,8 @@ const logsetting = [
 
 const profile = [
   <svg
-    width="20"
-    height="20"
+    width="60"
+    height="60"
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +271,7 @@ function Header({
           </div>
         </Col>
         <Col span={24} md={18} className="header-control">
-          <Badge size="small" count={4}>
+          {/* <Badge size="small" count={4}>
             <Dropdown overlay={menu} trigger={["click"]}>
               <a
                 href="#pablo"
@@ -281,10 +281,10 @@ function Header({
                 {bell}
               </a>
             </Dropdown>
-          </Badge>
-          <Button type="link" onClick={showDrawer}>
+          </Badge> */}
+          {/* <Button type="link" onClick={showDrawer}>
             {logsetting}
-          </Button>
+          </Button> */}
           <Button
             type="link"
             className="sidebar-toggler"
@@ -292,7 +292,7 @@ function Header({
           >
             {toggler}
           </Button>
-          <Drawer
+          {/* <Drawer
             className="settings-drawer"
             mask={true}
             width={360}
@@ -394,10 +394,10 @@ function Header({
                 </div>
               </div>
             </div>
-          </Drawer>
+          </Drawer> */}
           <Link to="/login" className="btn-sign-in">
             {profile}
-            <span>Sign in</span>
+            {/* <span>Sign in</span> */}
           </Link>
           <Input
             className="header-search"

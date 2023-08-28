@@ -15,6 +15,8 @@ import { RegistrationPage } from '../pages/auth/RegistrationPage';
 import CropsList from '../pages/Crops/CropsList';
 import AddCrops from '../pages/Crops/AddCrops';
 import CorporateCrops from '../pages/Crops/CorporateCrops';
+import Societies from '../pages/CorporateSociety/Societies';
+import AddSociety from '../pages/CorporateSociety/AddSociety';
 
 
 type userType = {
@@ -50,6 +52,8 @@ const AppRouter = () => {
           { path: "cropsList", element:  <CropsList/> },
           { path: "AddCrops", element:  <AddCrops/> },
           { path: "corporateCrops", element:  <CorporateCrops/> },
+          { path: "all_corporates", element:  <Societies/> },
+          { path: "addCorporates", element:  <AddSociety/> },
         ],
       },
       {
