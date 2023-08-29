@@ -43,7 +43,9 @@ const AppRouter = () => {
       },
       {
         path: "/farmers_dashboard",
-        element: <FarmerDashboard />,
+        element:  token
+        ?<FarmerDashboard />
+        : <Navigate to="/login"  />,
       },
       {
         path: "/*",

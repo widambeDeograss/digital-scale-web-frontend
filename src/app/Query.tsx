@@ -231,3 +231,28 @@ mutation addCrops($name: String!, $priceperkg: Float!, $moisturePercentage: Floa
 }
 
 `
+
+export const allCropSales = gql `
+query{
+  cropSalesList{
+   id,
+    cropSold{
+      crop{
+        name
+      }
+    },
+    farmer{
+    farmer{
+      username
+    },
+      corporateSociety{
+        name
+      }
+    },
+    quantityInKg,
+    totalPay
+    
+  }
+}
+
+`

@@ -1,15 +1,18 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
 import { Colors } from '../../constants/Colors';
+import { HeaderLs } from './Header';
+import { Outlet } from 'react-router-dom';
+import Footerls from './Footer';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
-  height: 150,
-  paddingInline: 50,
-  lineHeight: '64px',
+  height: 100,
+  paddingInline: 150,
+  // lineHeight: '64px',
   backgroundColor: Colors.primary,
 };
 
@@ -31,15 +34,22 @@ const siderStyle: React.CSSProperties = {
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
-  backgroundColor: '#7dbcea',
+  backgroundColor: Colors.primary,
 };
 
-const Main: React.FC = () => (
+const Main = ({children}:any) => (
   <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
     <Layout>
-      <Header style={headerStyle}>Header</Header>
-      <Content style={contentStyle}>Content</Content>
-      <Footer style={footerStyle}>Footer</Footer>
+      <Header style={headerStyle}>
+        <HeaderLs />
+      </Header>
+      <Content style={contentStyle}>
+        {children}
+
+      </Content>
+      <Footer style={footerStyle}>
+        <Footerls />
+      </Footer>
     </Layout>
   
 

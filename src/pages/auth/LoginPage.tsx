@@ -80,15 +80,15 @@ export default function LoginPage() {
        const { error, user, token } = response.data?.login
 
         if (token) {
+          console.log(user)
+          const localStorageUser = {
+            user: user,
+           };
+           localStorage.setItem("user", JSON.stringify(localStorageUser));
+           const userdata = { user:user, token:token };
+           localStorage.setItem("token", token);
+           dispatch(loginAuth({ ...userdata }));
           if (user?.role === "A_1" || user?.role === "A_2") {
-            console.log(user)
-            const localStorageUser = {
-              user: user,
-             };
-             localStorage.setItem("user", JSON.stringify(localStorageUser));
-             const userdata = { user:user, token:token };
-             localStorage.setItem("token", token);
-             dispatch(loginAuth({ ...userdata }));
              navigation("/dashboard")
           } else {
             navigation("/farmers_dashboard")
