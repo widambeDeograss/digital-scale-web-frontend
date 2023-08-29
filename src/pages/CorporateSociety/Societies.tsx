@@ -43,7 +43,7 @@ type societyDataType = {
 const {Column} = Table;
 const Societies = () => {
   const { Title, Text } = Typography;
-  const currentUser = JSON.parse(useSelector(selectCurrentUser));
+  const currentUser = useSelector(selectCurrentUser);
   const [societyData, setsocietyData] = useState<societyDataType>();
   const { data, loading, error } = useQuery(corporates);
   const [reverse, setReverse] = useState(false);

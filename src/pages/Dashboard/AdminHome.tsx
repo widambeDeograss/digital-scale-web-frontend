@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import { corporates } from "../../app/Query";
 import { useNavigate } from "react-router-dom";
+import { type } from "os";
 
 
 const dollor = [
@@ -181,9 +182,19 @@ type societyDataType = {
   district:String,
   region:String,
 }
+type userType = {
+email:String,
+firstName:String,
+fullName:String,
+id:String,
+phoneNumber:String,
+role:any,
+username:String,
+}
 const AdminHome = () => {
   const { Title, Text } = Typography;
-  const currentUser = JSON.parse(useSelector(selectCurrentUser));
+  const currentUser = useSelector(selectCurrentUser);
+  const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [societyData, setsocietyData] = useState<societyDataType>();
   const onChange = (e:any) => console.log(`radio checked:${e.target.value}`);
   const {data, loading, error} = useQuery(corporates);
@@ -192,30 +203,41 @@ const AdminHome = () => {
   const navigate = useNavigate()
   // const { role }:any = user?.user;
  
+  useEffect(() => {
+    async function loadData() {
+    if (currentUser) {
+     await setuserData(currentUser.user);
+    }
+   }
+   loadData()
+  }, [currentUser]);
   
   useEffect(() => {
-    if (currentUser) {
-      // window.location.reload()
-      const { role } = currentUser.user;
-      setrole(role)
-      console.log(role);
-      if (role === "A_2") {
-      const society =   data?.corporateSocieties.find((soc:any) => 
-           soc.admin.id === currentUser.user.id
-      )
-      setsocietyData(society)
+    async function loadData() {
+      if (userData) {
+        // window.location.reload()
+        const  role  = await userData.role;
+        setrole(role)
+        console.log(role);
+        if (role === "A_2") {
+        const society =   data?.corporateSocieties.find((soc:any) => 
+             soc.admin.id === currentUser.user.id
+        )
+        setsocietyData(society)
+        }
+         // Check if role is defined here
+      } else if(role === "A_3") {
+          navigate("/farmers_dashboard")
+      } 
+      else {
+        console.log("User data is not available yet");
       }
-       // Check if role is defined here
-    } else if(role === "A_3") {
-        navigate("/farmers_dashboard")
-    } 
-    else {
-      console.log("User data is not available yet");
-    }
-  }, [currentUser])
+     }
+     loadData()
+   
+  }, [currentUser, userData])
   
 
-  console.log(societyData?.name);
   
 
   return (

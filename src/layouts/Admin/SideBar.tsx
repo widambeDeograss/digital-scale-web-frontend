@@ -9,16 +9,26 @@ import { selectCurrentUser } from "../../app/AuthSlice";
 interface colors {
   color: string;
 }
-
+type userType = {
+  email:String,
+  firstName:String,
+  fullName:String,
+  id:String,
+  phoneNumber:String,
+  role:any,
+  username:String,
+  }
 function Sidenav({ color }: colors) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
-  const currentUser = JSON.parse(useSelector(selectCurrentUser));
+  const currentUser = useSelector(selectCurrentUser);
+  const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [role, setrole] = useState("");
 
   useEffect(() => {
     if (currentUser) {
-      const { role } = currentUser.user;
+      setuserData(currentUser?.user)
+      const role  = userData?.role;
       setrole(role);
       console.log(role);
     } else {

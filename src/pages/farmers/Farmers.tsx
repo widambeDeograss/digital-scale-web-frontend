@@ -38,11 +38,20 @@ type farmerListType = {
   farmer: any;
   corporateSociety: any;
 };
-
+type userType = {
+  email:String,
+  firstName:String,
+  fullName:String,
+  id:String,
+  phoneNumber:String,
+  role:any,
+  username:String,
+  }
 const { Column, ColumnGroup } = Table;
 const Farmers = () => {
   const { Title, Text } = Typography;
-  const currentUser = JSON.parse(useSelector(selectCurrentUser));
+  const currentUser = useSelector(selectCurrentUser);
+  const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [societyData, setsocietyData] = useState<societyDataType>();
   const [FarmersData, setFarmersData] = useState<farmerListType>();
   const onChange = (e: any) => console.log(`radio checked:${e.target.value}`);
@@ -54,15 +63,16 @@ const Farmers = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const { role } = currentUser.user;
-      setrole(role);
+      setuserData(currentUser?.user)
+      // window.location.reload()
+      const  role  = userData?.role;
+      setrole(role)
       console.log(role);
-      setFarmersData(farmers?.farmers);
       if (role === "A_2") {
-        const society = data?.corporateSocieties.find(
-          (soc: any) => soc.admin.id === currentUser.user.id
-        );
-        setsocietyData(society);
+      const society =   data?.corporateSocieties.find((soc:any) => 
+           soc.admin.id === currentUser.user.id
+      )
+      setsocietyData(society)
       }
       // Check if role is defined here
     } else {

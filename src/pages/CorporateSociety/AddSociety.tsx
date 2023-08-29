@@ -39,7 +39,7 @@ type societyDataType = {
 
 const AddSociety = () => {
   const { Title, Text } = Typography;
-  const currentUser = JSON.parse(useSelector(selectCurrentUser));
+  const currentUser = useSelector(selectCurrentUser);
   const [societyData, setsocietyData] = useState<societyDataType>();
   const [errorMsg, setErrorMsg] = useState<String>();
   const onChange = (e: any) => console.log(`radio checked:${e.target.value}`);

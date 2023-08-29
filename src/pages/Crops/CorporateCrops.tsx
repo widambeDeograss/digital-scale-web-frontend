@@ -45,7 +45,7 @@ type farmerListType = {
 const { Column, ColumnGroup } = Table;
 const CorporateCrops = () => {
     const { Title, Text } = Typography;
-    const currentUser = JSON.parse(useSelector(selectCurrentUser));
+    const currentUser = useSelector(selectCurrentUser);
     const [societyData, setsocietyData] = useState<societyDataType>();
     const [CropsData, setCropsData] = useState<farmerListType>();
     const { data, loading, error } = useQuery(corporates);

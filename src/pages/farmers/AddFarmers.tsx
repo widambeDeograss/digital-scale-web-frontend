@@ -35,7 +35,7 @@ type societyDataType = {
 
 const AddFarmers = () => {
     const { Title, Text } = Typography;
-    const currentUser = JSON.parse(useSelector(selectCurrentUser));
+    const currentUser = useSelector(selectCurrentUser);
     const [societyData, setsocietyData] = useState<societyDataType>();
     const [errorMsg, setErrorMsg] = useState<String>();
     const onChange = (e:any) => console.log(`radio checked:${e.target.value}`);
@@ -50,7 +50,7 @@ const AddFarmers = () => {
     useEffect(() => {
         async function loadData () {
         if (currentUser) {
-            const { role } = currentUser.user;
+            const { role } = currentUser?.user;
            
             const arr:any = [];
             users?.users.map((user:any) => {
