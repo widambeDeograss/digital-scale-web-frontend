@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 import {
@@ -11,21 +10,20 @@ import {
   List,
   Avatar,
   Input,
-  Drawer,
+  Space,
   Typography,
-  Switch,
 } from "antd";
-
+import type { MenuProps } from "antd";
 import {
   SearchOutlined,
   StarOutlined,
-  TwitterOutlined,
+  LogoutOutlined,
   FacebookFilled,
 } from "@ant-design/icons";
 
 import { NavLink, Link } from "react-router-dom";
+import { Colors } from "../../constants/Colors";
 // import avtar from "../../assets/images/team-2.jpg";
-
 
 const bell = [
   <svg
@@ -217,14 +215,53 @@ const setting = [
   </svg>,
 ];
 
-interface HeaderProps{
-    // placement:(params: any) => any;
-  name:String
-  subName:String
+const items: MenuProps["items"] = [
+  {
+    key: "1",
+    label: (
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.antgroup.com"
+      >
+        1st menu item
+      </a>
+    ),
+  },
+  {
+    key: "2",
+    label: (
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.aliyun.com"
+      >
+        2nd menu item (disabled)
+      </a>
+    ),
+    icon: <StarOutlined />,
+    disabled: true,
+  },
+  {
+    key: "4",
+    danger: true,
+    icon: <LogoutOutlined />,
+    label: "Log out",
+    onClick:() => {
+      localStorage.clear()
+      window.location.reload()
+    }
+  },
+];
+
+interface HeaderProps {
+  // placement:(params: any) => any;
+  name: String;
+  subName: String;
   onPress: (params: any) => any;
-  handleSidenavColor:any
-  handleSidenavType:any
-  handleFixedNavbar:any
+  handleSidenavColor: any;
+  handleSidenavType: any;
+  handleFixedNavbar: any;
 }
 
 function Header({
@@ -235,7 +272,7 @@ function Header({
   handleSidenavColor,
   handleSidenavType,
   handleFixedNavbar,
-}:HeaderProps) {
+}: HeaderProps) {
   const { Title, Text } = Typography;
 
   const [visible, setVisible] = useState(false);
@@ -257,9 +294,7 @@ function Header({
             <Breadcrumb.Item>
               <NavLink to="/">Pages</NavLink>
             </Breadcrumb.Item>
-            <Breadcrumb.Item >
-              {name.replace("/", "")}
-            </Breadcrumb.Item>
+            <Breadcrumb.Item>{name.replace("/", "")}</Breadcrumb.Item>
           </Breadcrumb>
           <div className="ant-page-header-heading">
             <span
@@ -272,24 +307,12 @@ function Header({
         </Col>
         <Col span={24} md={18} className="header-control">
           {/* <Badge size="small" count={4}>
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <a
-                href="#pablo"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                {bell}
-              </a>
-            </Dropdown>
+           
           </Badge> */}
           {/* <Button type="link" onClick={showDrawer}>
             {logsetting}
           </Button> */}
-          <Button
-            type="link"
-            className="sidebar-toggler"
-            onClick={onPress}
-          >
+          <Button type="link" className="sidebar-toggler" onClick={onPress}>
             {toggler}
           </Button>
           {/* <Drawer
@@ -395,10 +418,18 @@ function Header({
               </div>
             </div>
           </Drawer> */}
-          <Link to="/login" className="btn-sign-in">
-            {profile}
-            {/* <span>Sign in</span> */}
-          </Link>
+          {/* <Link to="/login" className="btn-sign-in"> */}
+          <Dropdown menu={{ items }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar size={40} style={{ backgroundColor: Colors.primary }}>
+                  USER
+                </Avatar>
+              </Space>
+            </a>
+          </Dropdown>
+
+          {/* </Link> */}
           <Input
             className="header-search"
             placeholder="Type here..."

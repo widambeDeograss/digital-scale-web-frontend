@@ -18,7 +18,6 @@ import {
     Row,
     Col,
     Image,
-    Checkbox,
     Switch,
     Layout
 } from "antd";
@@ -30,7 +29,7 @@ import { useMutation, gql } from "@apollo/client";
 import { login } from "../../app/Query";
 import { log } from "console";
 import { loginAuth } from "../../app/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 type LoginType = "phone" | "account";
 
@@ -92,7 +91,7 @@ export default function LoginPage() {
              dispatch(loginAuth({ ...userdata }));
              navigation("/dashboard")
           } else {
-            navigation("/login"); 
+            navigation("/farmers_dashboard")
           }
         } else {
           
@@ -228,9 +227,9 @@ export default function LoginPage() {
                   </Form.Item>
                   <p className="font-semibold text-muted">
                     Don't have an account?{" "}
-                    {/* <Link to="/sign-up" className="text-dark font-bold">
+                    <Link to="/register" className="text-dark font-bold">
                       Sign Up
-                    </Link> */}
+                    </Link>
                   </p>
                 </Form>
                 <div

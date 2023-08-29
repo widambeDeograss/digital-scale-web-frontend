@@ -18,6 +18,7 @@ import CorporateCrops from '../pages/Crops/CorporateCrops';
 import Societies from '../pages/CorporateSociety/Societies';
 import AddSociety from '../pages/CorporateSociety/AddSociety';
 import CorporateDsc from '../pages/CorporateSociety/CorporateDsc';
+import FarmerDashboard from '../pages/Dashboard/FarmerDashboard';
 
 
 type userType = {
@@ -39,6 +40,10 @@ const AppRouter = () => {
       {
         path: "/register",
         element: <RegistrationPage />,
+      },
+      {
+        path: "/farmers_dashboard",
+        element: <FarmerDashboard />,
       },
       {
         path: "/*",

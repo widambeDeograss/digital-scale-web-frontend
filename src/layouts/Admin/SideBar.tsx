@@ -172,7 +172,7 @@ function Sidenav({ color }: colors) {
       <div className="brand">
         {/* <img src={logo} alt="" /> */}
         <span className="text-2xl font-bold" style={{ color: Colors.primary }}>
-          E-mzani
+          e-Mzani
         </span>
       </div>
       <hr />

@@ -27,7 +27,7 @@ import { Colors } from "../../constants/Colors";
 import { useDispatch } from "react-redux";
 import { useMutation, gql } from "@apollo/client";
 import { login, Register } from "../../app/Query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { notification } from "../../app/Notifications";
 
 const iconStyles: CSSProperties = {
@@ -275,9 +275,9 @@ export const RegistrationPage = () => {
                 </Form.Item>
                 <p className="font-semibold text-muted">
                   have an account?{" "}
-                  {/* <Link to="/sign-up" className="text-dark font-bold">
-                      Sign Up
-                    </Link> */}
+                  <Link to="/login" className="text-dark font-bold">
+                      Sign in
+                    </Link>
                 </p>
               </Form>
               <div

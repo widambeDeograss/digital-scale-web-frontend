@@ -24,6 +24,7 @@ import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import { corporates } from "../../app/Query";
+import { useNavigate } from "react-router-dom";
 
 
 const dollor = [
@@ -188,6 +189,7 @@ const AdminHome = () => {
   const {data, loading, error} = useQuery(corporates);
   const [reverse, setReverse] = useState(false);
   const [role, setrole] = useState("")
+  const navigate = useNavigate()
   // const { role }:any = user?.user;
  
   
@@ -204,7 +206,10 @@ const AdminHome = () => {
       setsocietyData(society)
       }
        // Check if role is defined here
-    } else {
+    } else if(role === "A_3") {
+        navigate("/farmers_dashboard")
+    } 
+    else {
       console.log("User data is not available yet");
     }
   }, [currentUser])
