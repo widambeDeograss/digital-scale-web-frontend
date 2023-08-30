@@ -62,6 +62,7 @@ export const login = gql`
         username
         phoneNumber
       }
+     
     }
   }
 `
@@ -198,7 +199,33 @@ query corporateCrops($corporate: String!){
 }
 
 `
+export const farmerCropSales = gql
+`
+query farmersales($farmer: String!) {
+  farmerCropSale(farmer:$farmer){
+   id,
+    quantityInKg,
+    totalPay,
+    saledate
+    cropSold{
+      crop{
+        name
+        priceperkg
+        moisturePercentage
+      },
+      corporate{
+        name
+        region
+        district
+      },
+       
+      
+    }
+  }
+}
 
+
+`
 
 export const createSociety = gql 
 `
@@ -252,6 +279,27 @@ query{
     quantityInKg,
     totalPay
     
+  }
+}
+
+`
+export const meFarmer = gql
+`
+query mefarmer($farmer: String!){
+  meFarmer(farmer:$farmer){
+   id,
+   farmer{
+    fullName,
+    email,
+    phoneNumber,
+    username
+    role
+  }
+    corporateSociety{
+      id
+      name
+      region
+    }
   }
 }
 

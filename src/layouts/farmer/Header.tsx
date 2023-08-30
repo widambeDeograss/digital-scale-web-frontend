@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
-import { Image, Avatar } from "antd";
+import { Image, Avatar, Modal } from "antd";
 import {
   SearchOutlined,
   StarOutlined,
   LogoutOutlined,
   FacebookFilled,
+  ExclamationCircleOutlined
 } from "@ant-design/icons";
 import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
@@ -22,6 +23,7 @@ type userType = {
 export const HeaderLs = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [userData, setuserData] = useState<userType>(currentUser?.user);
+  const [modal, contextHolder] = Modal.useModal();
 
   useEffect(() => {
     if (currentUser) {
@@ -30,6 +32,21 @@ export const HeaderLs = () => {
       console.log("User data is not available yet");
     }
   }, [currentUser, userData]);
+
+  const confirm = () => {
+    modal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Log out from e-Mzani',
+      okText: 'OK',
+      okType:"danger",
+      cancelText: 'cancel',
+      onOk:() => {
+        localStorage.clear();
+        window.location.reload()
+      }
+    });
+  };
 
   return (
     <div>
@@ -49,13 +66,14 @@ export const HeaderLs = () => {
               <span className="text-sm">{userData?.fullName}</span>
             </li>
             <li className="border-l-2 ">
-              <div className="flex flex-row p-2 cursor-pointer ml-2 border-white border-[1px] rounded-lg mt-5">
+              <div className="flex flex-row p-2 cursor-pointer ml-2 border-white border-[1px] rounded-lg mt-5"  onClick={confirm}>
                 <LogoutOutlined size={20} color="red" className="mt-1 text-white" />
                 <span className="text-sm ml-2 text-white">Log out</span>
               </div>
             </li>
           </ul>
         </div>
+        {contextHolder}
       </div>
 
       <div className="brand">

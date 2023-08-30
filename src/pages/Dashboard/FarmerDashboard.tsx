@@ -11,7 +11,7 @@ import {
   Table,
   Select,
   message,
-  Progress,
+  Divider,
   Button,
   Avatar,
   Typography,
@@ -19,10 +19,14 @@ import {
   Tag,
   Space,
   Modal,
-  Popconfirm,
+  List,
 } from "antd";
-import { corporates } from "../../app/Query";
-import { allCropSales } from "../../app/Query";
+import {
+  allCropSales,
+  allFarmers,
+  farmerCropSales,
+  meFarmer,
+} from "../../app/Query";
 import { useNavigate } from "react-router-dom";
 import type { MenuProps } from "antd";
 import {
@@ -61,55 +65,65 @@ const FarmerDashboard = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [societyData, setsocietyData] = useState<societyDataType>();
-  const [FarmersData, setFarmersData] = useState<farmerListType>();
+  const [FarmersData, setFarmersData] = useState();
   const onChange = (e: any) => console.log(`radio checked:${e.target.value}`);
-  const { data, loading, error } = useQuery(corporates);
   const { data: sales } = useQuery(allCropSales);
-  console.log(sales);
+  const { data: farmers } = useQuery(allFarmers);
+  const { loading, error, data } = useQuery(farmerCropSales, {
+    variables: { farmer: currentUser?.user?.email },
+  });
+  const { data: meFarmerdata } = useQuery(meFarmer, {
+    variables: { farmer: currentUser?.user?.email },
+  });
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
 
+  useEffect(() => {}, []);
+
+  if (loading) {
+    return <h1>loading...</h1>;
+  }
+
+  console.log(meFarmerdata);
+
   return (
     <div>
       <Main>
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex items-center justify-center min-h-screen">
           <div className="w-4/5 bg-transparent ">
-            <div className="w-full h-0.5 bg-indigo-500"></div>
-            <div className="flex justify-between p-4">
-              <div>
-                <h6 className="font-bold">
-                  Order Date :{" "}
-                  <span className="text-sm font-medium"> 12/12/2022</span>
-                </h6>
-                <h6 className="font-bold">
-                  Order ID :{" "}
-                  <span className="text-sm font-medium"> 12/12/2022</span>
-                </h6>
-              </div>
-              <div className="w-40">
-                <address className="text-sm">
-                  <span className="font-bold"> Billed To : </span>
-                  Joe Smith 795 Folsom Ave San Francisco, CA 94107 P: (123)
-                  456-7890
-                </address>
-              </div>
-              <div className="w-40">
-                <address className="text-sm">
-                  <span className="font-bold">Ship To :</span>
-                  Joe doe 800 Folsom Ave San Francisco, CA 94107 P: +
-                  111-456-7890
-                </address>
-              </div>
-              <div></div>
-            </div>
+            <div className="w-full h-0.5 bg-blue-500 "></div>
+            {/* <div className="flex justify-between"> */}
             <div className="">
-              <div className="border-b border-gray-200 shadow">
+              <h2 className=" text-black text-left font-bold text-3xl mt-10">
+                Welcome Back!
+              </h2>
+              <h2 className="text-black text-left font-bold text-xl mt-1">
+                {meFarmerdata?.meFarmer[0].farmer.fullName}
+              </h2>
+            </div>
+            <Divider orientation="left">Registered Corporate societies</Divider>
+            <List
+              size="small"
+              // header={<div>Header</div>}
+              // footer={<div>Footer</div>}
+              bordered
+              dataSource={meFarmerdata?.meFarmer}
+              renderItem={(item: any) => (
+                <List.Item>
+                  <div className="flex flex-row justify-around "><div>{item.corporateSociety?.name}</div><div className="ml-20">Wilaya:{item.corporateSociety?.region}</div></div>
+                </List.Item>
+              )}
+            />
+            <div></div>
+            {/* </div> */}
+            <div className="">
+              <div className="border-b border-gray-200 shadow mt-10">
                 <Card
                   bordered={false}
                   className="criclebox tablespace mb-24"
-                  title="ALL Farmers Registered"
+                  title="All your crop sale receipts"
                   extra={
                     <>
                       <Button.Group>
@@ -130,7 +144,7 @@ const FarmerDashboard = () => {
                   }
                 >
                   <div className="table-responsive">
-                    <Table dataSource={sales?.cropSalesList}>
+                    <Table dataSource={data?.farmerCropSale}>
                       <Column title="Farmer id" dataIndex="id" key="id" />
                       <Column
                         title="Farmer"
@@ -220,31 +234,14 @@ const FarmerDashboard = () => {
               </div>
               <div className="p-4">
                 <h3>Signature</h3>
-                <div className="text-4xl italic text-indigo-500">AAA</div>
+                <div className="text-4xl italic bg-blue-500">AAA</div>
               </div>
             </div>
-            <div className="w-full h-0.5 bg-indigo-500"></div>
+            <div className="w-full h-0.5 bg-blue-500"></div>
 
-            <div className="p-4">
-              <div className="flex items-center justify-center">
-                Thank you very much for doing business with us.
-              </div>
-              <div className="flex items-end justify-end space-x-3">
-                <button className="px-4 py-2 text-sm text-green-600 bg-green-100">
-                  Print
-                </button>
-                <button className="px-4 py-2 text-sm text-blue-600 bg-blue-100">
-                  Save
-                </button>
-                <button className="px-4 py-2 text-sm text-red-600 bg-red-100">
-                  Cancel
-                </button>
-              </div>
-            </div>
+
           </div>
         </div>
-
-      
       </Main>
     </div>
   );
