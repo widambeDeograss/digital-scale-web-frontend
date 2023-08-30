@@ -61,11 +61,11 @@ export const HeaderLs = () => {
         <div className="p-2">
           <ul className="flex">
             <li className="flex flex-col items-center p-2 border-l-[1px] border-indigo-200 ">
-              <Avatar size={30}>W</Avatar>
+              <Avatar size={30}>{userData?.email?.charAt(0).toLocaleUpperCase()}</Avatar>
               <span className="text-sm">{userData?.email}</span>
               <span className="text-sm">{userData?.fullName}</span>
             </li>
-            <li className="border-l-2 ">
+            <li className="border-l-[1px] ">
               <div className="flex flex-row p-2 cursor-pointer ml-2 border-white border-[1px] rounded-lg mt-5"  onClick={confirm}>
                 <LogoutOutlined size={20} color="red" className="mt-1 text-white" />
                 <span className="text-sm ml-2 text-white">Log out</span>
@@ -77,11 +77,6 @@ export const HeaderLs = () => {
       </div>
 
       <div className="brand">
-        {/* <Image
-          width={200}
-          className="absolute"
-          src={require("../../assets/imgs/0e74885f117dba7f47a17d22b933fcc6-removebg-preview (1).png")}
-        /> */}
         <div>
           <div className="flex flex-col mb-52">
             {" "}

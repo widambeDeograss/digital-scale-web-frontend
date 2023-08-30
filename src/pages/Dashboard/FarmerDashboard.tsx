@@ -86,7 +86,7 @@ const FarmerDashboard = () => {
     return <h1>loading...</h1>;
   }
 
-  console.log(meFarmerdata);
+  console.log(data);
 
   return (
     <div>
@@ -127,7 +127,7 @@ const FarmerDashboard = () => {
                   extra={
                     <>
                       <Button.Group>
-                        <Button value="a">ALL</Button>
+                        <Typography.Text className="mt-1 mr-2 font-extrabold">Filter:</Typography.Text>
                         {/* <Radio.Button> */}
                         <Select
                           defaultValue="recent"
@@ -145,70 +145,34 @@ const FarmerDashboard = () => {
                 >
                   <div className="table-responsive">
                     <Table dataSource={data?.farmerCropSale}>
-                      <Column title="Farmer id" dataIndex="id" key="id" />
+                      <Column title="Receipt id" dataIndex="id" key="id" />
                       <Column
-                        title="Farmer"
-                        dataIndex="farmer"
-                        key="farmer.id"
-                        render={(farmer) => <div>{farmer?.fullName} </div>}
+                        title="Crop sold"
+                        dataIndex="cropSold"
+                        key="cropSold"
+                        render={(crop) => <div>{crop?.crop.name} </div>}
                       />
                       <Column
-                        title="Phone"
-                        dataIndex="farmer"
-                        key="farmer.id"
-                        render={(farmer) => <div>{farmer?.phoneNumber} </div>}
+                        title="PriceperKg in Tzs"
+                        dataIndex="cropSold"
+                        key="cropSold"
+                        render={(crop) => <div>{crop?.crop.priceperkg} </div>}
                       />
                       <Column
-                        title="Date Joined"
-                        dataIndex="farmer"
-                        key="farmer.id"
-                        render={(farmer) => <div>{farmer?.createdAt} </div>}
+                          title="Moisture percentage"
+                          dataIndex="cropSold"
+                          key="cropSold"
+                          render={(crop) => <div>{crop?.crop.moisturePercentage} </div>}
                       />
+                          <Column title="Date" dataIndex="saledate" key="id" />
+                      <Column title="Quantity in Kgs" dataIndex="quantityInKg" key="id" />
+                      <Column title="Pay out in Tzs" dataIndex="totalPay" key="id" />
                       <Column
                         title="Corporate Society"
-                        dataIndex="corporateSociety"
-                        key="corporateSociety.name"
-                        render={(corporateSociety) => (
-                          <div>{corporateSociety?.name}</div>
-                        )}
+                        render={(crop) =>  <Button             
+                          >View</Button>}
                       />
-                      {/* <Column
-                    title="Roles"
-                    dataIndex="roles"
-                    key="roles"
-                    render={(roles) => (
-                      <>
-                        {roles?.map((role) => (
-                          <Tag color="blue" key={role}>
-                            {role === 1 ? "admin" : "user"}
-                          </Tag>
-                        ))}
-                      </>
-                    )}
-                  /> */}
-                      {/* 
-                  {userRoles[0] === 1 ? (
-                    <Column
-                      title="Actions"
-                      key="action"
-                      render={(_, record) => (
-                        <Space size="middle">
-                          <Button
-                            type="dashed"
-                            onClick={() => {
-                              
-                            }}
-                          >
-                            Add Role
-                          </Button>
-
-                      
-                        </Space>
-                      )}
-                    />
-                  ) : (
-                    <div></div>
-                  )} */}
+                   
                     </Table>
                   </div>
                 </Card>
@@ -219,8 +183,7 @@ const FarmerDashboard = () => {
                 <h3 className="text-xl">Terms And Condition :</h3>
                 <ul className="text-xs list-disc list-inside">
                   <li>
-                    All accounts are to be paid within 7 days from receipt of
-                    invoice.
+                    You have to be registered in a corporate to use the scale.
                   </li>
                   <li>
                     To be paid by cheque or credit card or direct payment
