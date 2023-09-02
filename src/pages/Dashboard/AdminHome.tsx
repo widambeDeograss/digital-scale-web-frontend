@@ -213,6 +213,13 @@ const AdminHome = () => {
   }, [currentUser]);
   
   useEffect(() => {
+    if (userData === undefined) {
+      // Perform the refresh action here
+      window.location.reload();
+    }
+  }, [currentUser]);
+  
+  useEffect(() => {
     async function loadData() {
       if (userData) {
         // window.location.reload()

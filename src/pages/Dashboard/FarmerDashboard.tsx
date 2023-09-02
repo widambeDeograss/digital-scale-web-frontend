@@ -80,7 +80,17 @@ const FarmerDashboard = () => {
     console.log(`selected ${value}`);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (userData === undefined) {
+      // Perform the refresh action here
+      window.location.reload();
+    }
+  }, [currentUser]); // This effect depends on the 'role' variable
+
+  // Simulate setting the role to undefined after a delay
+  setTimeout(() => {
+   
+  }, 5000); 
 
   if (loading) {
     return <h1>loading...</h1>;
