@@ -1,8 +1,5 @@
 import {
-  AlipayOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoOutlined,
+
   UserOutlined,
   WeiboOutlined,
   GoogleOutlined,
@@ -14,10 +11,6 @@ import {
     Input,
     Space,
     App,
-    Row,
-    Col,
-    Image,
-    Switch,
     Layout, Checkbox,
 } from "antd";
 import React, {useEffect} from 'react';
@@ -27,7 +20,6 @@ import { Colors } from "../../constants/Colors";
 import { useDispatch } from "react-redux";
 import { useMutation, gql } from "@apollo/client";
 import { login } from "../../app/Query";
-import { log } from "console";
 import { loginAuth } from "../../app/AuthSlice";
 import { useNavigate, Link } from "react-router-dom";
 import lott from "../../assets/lotties/singing-contract.json"

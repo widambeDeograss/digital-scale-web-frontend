@@ -1,8 +1,5 @@
+import React, { useState, useEffect } from "react";
 import {
-  AlipayOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoOutlined,
   UserOutlined,
   WeiboOutlined,
   GoogleOutlined,
@@ -22,13 +19,14 @@ import {
   Layout,
 } from "antd";
 import type { CSSProperties } from "react";
-import { useState } from "react";
 import { Colors } from "../../constants/Colors";
 import { useDispatch } from "react-redux";
 import { useMutation, gql } from "@apollo/client";
 import { login, Register } from "../../app/Query";
 import { useNavigate, Link } from "react-router-dom";
 import { notification } from "../../app/Notifications";
+import Lottie from "lottie-react";
+import lott from "../../assets/lotties/packaging-for-delivery.json";
 
 const iconStyles: CSSProperties = {
   color: "rgba(0, 0, 0, 0.2)",
@@ -54,7 +52,7 @@ type FieldType = {
   password2?: String;
   remember?: string;
 };
-
+const { Content, Sider } = Layout;
 export const RegistrationPage = () => {
   const [isloading, setisloading] = useState(false);
   const [userRegister, { data, loading, error }] = useMutation(Register);
@@ -64,9 +62,27 @@ export const RegistrationPage = () => {
   const navigation = useNavigate();
   const { message, modal, notification } = App.useApp();
 
-  // function onChange() {
-  //   console.log(`switch to ${checked}`);
-  // }
+    useEffect(() => {
+
+        const handleResize = () => {
+            const screenWidth = window.innerWidth;
+            const leftSide:any = document.querySelector('.left-side');
+
+            if (screenWidth < 768) {
+                leftSide.style.display = 'none';
+            } else {
+                leftSide.style.display = 'block';
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
   const onFinish = async (values: FieldType) => {
     setisloading(true);
@@ -93,11 +109,11 @@ export const RegistrationPage = () => {
     //       placement: 'topRight',
     //       type:"success"
     //     });
-       
+
     //   };
 
-      if (success) { 
-        navigation("/login"); 
+      if (success) {
+        navigation("/login");
           notification.success(
             {
                 message: `Registration success`,
@@ -105,14 +121,14 @@ export const RegistrationPage = () => {
                 placement: 'topRight',
             }
           );
-         
+
       } else {
         setErrorMsg(error?.validationErrors[0].messages[0]);
 
       }
     } catch (error: any) {
      console.log(error);
-     
+
     }
     setisloading(false);
   };
@@ -120,241 +136,259 @@ export const RegistrationPage = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+    return (
 
-  return (
-    <div>
-      {/* <Row gutter={[24, 0]}>
-                <Col span={6} xs={24} xl={6}>
-                   
-                </Col>
-                <Col span={18} xs={24} xl={18} > */}
-      <div className="w-full">
-        <Layout.Content className="signin">
-          <Row gutter={[24, 0]} justify="space-around">
-            <Col
-              xs={{ span: 24, offset: 0 }}
-              lg={{ span: 8, offset: 2 }}
-              md={{ span: 12 }}
-              style={{ padding: 30 }}
-              className="my-auto border-gray-100  border-r-2 shadow-lg rounded-lg mt-10"
+        <Layout style={{ minHeight: '100%' }}>
+            <Sider
+                width={500}
+                style={{
+                    background: "darkgray",
+                    color: '#fff',
+                    padding: '20px',
+                    textAlign: 'center',
+                    borderTopRightRadius: '20px',
+                    borderBottomRightRadius: '20px',
+                }}
+                className="left-side"
             >
-              <div className="">
-                <h1 className="text-2xl m/font-bold">e-Mzani</h1>
-                <Divider plain>
+                <Lottie
+                    animationData={lott}
+                    height={200}
+                    width={200}
+                    loop={true}
+                />
+                {/* Add aligned content about the digital scale */}
+                <div style={{ marginTop: '20px' }}>
+                    <h1>e-Mzani</h1>
+                    <h3>A bluetooth enabled digital scale</h3>
+                    <p>Measure everything with precision.</p>
+                </div>
+            </Sider>
+            <Content
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderTopLeftRadius: '20px',
+                    borderBottomLeftRadius: '20px',
+                }}
+            >
+                <div className="w-2/3 p-15">
+
+                    <div className="">
+                        <h1 className="text-2xl font-bold text-center">e-Mzani</h1>
+                        <Divider plain>
                   <span
-                    style={{
-                      color: "#CCC",
-                      fontWeight: "normal",
-                      fontSize: 14,
-                    }}
+                      style={{
+                          color: "#CCC",
+                          fontWeight: "normal",
+                          fontSize: 14,
+                      }}
                   >
                     Create account
                   </span>
-                </Divider>
-              </div>
-              {errorMsg && (
-                <h3 className="text-lg text-red-800 text-center whitespace-pre-wrap">{errorMsg}!!</h3>
-              )}
-              <Form
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                layout="vertical"
-                className="row-col"
-              >
-                <Form.Item
-                  className="username "
-                  label="Username"
-                  name="username"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your username!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="username" />
-                </Form.Item>
-                <Form.Item
-                  className="username "
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your email!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Email" type="email" />
-                </Form.Item>
-                <Form.Item
-                  className="username "
-                  label="Full name"
-                  name="fullName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your email!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="full name" />
-                </Form.Item>
-                <Form.Item
-                  className="username "
-                  label="Phone Number"
-                  name="phoneNumber"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your phoneNumber!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="phone" />
-                </Form.Item>
-
-                <Form.Item
-                  className="username"
-                  label="Password"
-                  name="password1"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your password!",
-                    },
-                  ]}
-                >
-                  <Input.Password />
-                </Form.Item>
-                <Form.Item
-                  className="username"
-                  label="Repeat Password"
-                  name="password2"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input repeat password!",
-                    },
-                  ]}
-                >
-                  <Input.Password />
-                </Form.Item>
-
-                <Form.Item
-                  name="remember"
-                  className="aligin-center"
-                  valuePropName="checked"
-                >
-                  <Switch
-                    defaultChecked
-                    style={{ backgroundColor: Colors.primary }}
-                  />
-                  Remember me
-                </Form.Item>
-
-                <Form.Item>
-                  {loading ? (
-                    <Button
-                      style={{ width: "100%" }}
-                      type="primary"
-                      htmlType="submit"
-                      loading
+                        </Divider>
+                    </div>
+                    {errorMsg && (
+                        <h3 className="text-lg text-red-800 text-center whitespace-pre-wrap">{errorMsg}!!</h3>
+                    )}
+                    <Form
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        layout="vertical"
+                        className="row-col"
                     >
-                      Signing up...
-                    </Button>
-                  ) : (
-                    <Button
-                      style={{ width: "100%" }}
-                      type="primary"
-                      htmlType="submit"
+                        <Form.Item
+                            className="username "
+                            label="Username"
+                            name="username"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your username!",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="username" />
+                        </Form.Item>
+                        <Form.Item
+                            className="username "
+                            label="Email"
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your email!",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Email" type="email" />
+                        </Form.Item>
+                        <Form.Item
+                            className="username "
+                            label="Full name"
+                            name="fullName"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your email!",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="full name" />
+                        </Form.Item>
+                        <Form.Item
+                            className="username "
+                            label="Phone Number"
+                            name="phoneNumber"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your phoneNumber!",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="phone" />
+                        </Form.Item>
+
+                        <Form.Item
+                            className="username"
+                            label="Password"
+                            name="password1"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your password!",
+                                },
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item
+                            className="username"
+                            label="Repeat Password"
+                            name="password2"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input repeat password!",
+                                },
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="remember"
+                            className="aligin-center"
+                            valuePropName="checked"
+                        >
+                            <Checkbox
+                                defaultChecked
+
+                            />
+                            Remember me
+                        </Form.Item>
+
+                        <Form.Item>
+                            {loading ? (
+                                <Button
+                                    style={{ width: "100%", backgroundColor:Colors.primary }}
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading
+                                >
+                                    Signing up...
+                                </Button>
+                            ) : (
+                                <Button
+                                    style={{ width: "100%" , backgroundColor:Colors.primary}}
+                                    type="primary"
+                                    htmlType="submit"
+                                >
+                                    SIGN UP
+                                </Button>
+                            )}
+                        </Form.Item>
+                        <p className="font-semibold text-muted">
+                            have an account?{" "}
+                            <Link to="/login" className="text-dark font-bold">
+                                Sign in
+                            </Link>
+                        </p>
+                    </Form>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                        }}
                     >
-                      SIGN UP
-                    </Button>
-                  )}
-                </Form.Item>
-                <p className="font-semibold text-muted">
-                  have an account?{" "}
-                  <Link to="/login" className="text-dark font-bold">
-                      Sign in
-                    </Link>
-                </p>
-              </Form>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <Divider plain>
+                        <Divider plain>
                   <span
-                    style={{
-                      color: "#CCC",
-                      fontWeight: "normal",
-                      fontSize: 14,
-                    }}
+                      style={{
+                          color: "#CCC",
+                          fontWeight: "normal",
+                          fontSize: 14,
+                      }}
                   >
                     Sign up with
                   </span>
-                </Divider>
-                <Space align="center" size={24}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      height: 40,
-                      width: 40,
-                      border: "1px solid #D4D8DD",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <GoogleOutlined
-                      style={{ ...iconStyles, color: "#1677FF" }}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      height: 40,
-                      width: 40,
-                      border: "1px solid #D4D8DD",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <UserOutlined style={{ ...iconStyles, color: "#FF6A10" }} />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      height: 40,
-                      width: 40,
-                      border: "1px solid #D4D8DD",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <WeiboOutlined
-                      style={{ ...iconStyles, color: "#333333" }}
-                    />
-                  </div>
-                </Space>
-              </div>
-            </Col>
-          </Row>
-        </Layout.Content>
-      </div>
+                        </Divider>
+                        <Space align="center" size={24}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    height: 40,
+                                    width: 40,
+                                    border: "1px solid #D4D8DD",
+                                    borderRadius: "50%",
+                                }}
+                            >
+                                <GoogleOutlined
+                                    style={{ ...iconStyles, color: "#1677FF" }}
+                                />
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    height: 40,
+                                    width: 40,
+                                    border: "1px solid #D4D8DD",
+                                    borderRadius: "50%",
+                                }}
+                            >
+                                <UserOutlined style={{ ...iconStyles, color: "#FF6A10" }} />
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    height: 40,
+                                    width: 40,
+                                    border: "1px solid #D4D8DD",
+                                    borderRadius: "50%",
+                                }}
+                            >
+                                <WeiboOutlined
+                                    style={{ ...iconStyles, color: "#333333" }}
+                                />
+                            </div>
+                        </Space>
+                    </div>
 
-      {/* </Col>
-            </Row> */}
-    </div>
-  );
+                </div>
+            </Content>
+        </Layout>
+    );
+
 };
