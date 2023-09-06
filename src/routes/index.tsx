@@ -24,13 +24,13 @@ import FarmerDashboard from '../pages/Dashboard/FarmerDashboard';
 type userType = {
   id:String
   role:String
-   
+
 }
 
 const AppRouter = () => {
   const token = useSelector(selectCurrentToken);
- 
- 
+
+
   <Router></Router>;
     const routes = useRoutes([
       {
@@ -53,7 +53,7 @@ const AppRouter = () => {
         ? <Main/>
         : <Navigate to="/login"  />,
         children: [
-          { element: <Navigate to="/dashboard" />, index: true },
+          { element: <Navigate to="/dashboard" />},
           { path: "dashboard", element:  <AdminHome/> },
           { path: "farmers", element:  <Farmers/> },
           { path: "addfarmer_to_society", element:  <AddFarmers/> },
@@ -74,7 +74,7 @@ const AppRouter = () => {
         element: <PageNotFound />,
       }
     ]);
-  
+
     return routes;
 }
 

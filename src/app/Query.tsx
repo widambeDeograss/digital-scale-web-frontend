@@ -227,7 +227,7 @@ query farmersales($farmer: String!) {
 
 `
 
-export const createSociety = gql 
+export const createSociety = gql
 `
 mutation createSociety($admin: String!, $name: String!, $region: String!, $district: String! ){
   createSociety(admin:$admin, name:$name, region:$region, district:$district) { 
@@ -303,4 +303,25 @@ query mefarmer($farmer: String!){
   }
 }
 
+`
+
+export const corporateSellsStats = gql
+`
+query corporateSells{
+  corporateSells{
+    name
+    crop
+    percentage
+  }
+}
+`
+
+export const  adminMonthlyStats = gql
+`
+query calculateMonthlyPercentage{
+  calculateMonthlyPercentage(year: 2023) {
+    month
+  percentage
+  }
+  }
 `

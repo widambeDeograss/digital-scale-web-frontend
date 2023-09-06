@@ -13,18 +13,13 @@ import {
   Timeline,
   Radio,
 } from "antd";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
 import { Colors } from "../../constants/Colors";
 import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
-import { corporates } from "../../app/Query";
+import { corporates, corporateSellsStats, adminMonthlyStats } from "../../app/Query";
 import { useNavigate } from "react-router-dom";
+import ReactApexChart from 'react-apexcharts';
 import { type } from "os";
 
 
@@ -117,29 +112,26 @@ const cart = [
 const count = [
   {
     today: "Today’s Sales",
-    title: "53,000",
+    title: "53,00",
     persent: "+30%",
     icon: dollor,
     bnb: "bnb2",
   },
   {
-    today: "Total no of Farmers",
+    today: "No Farmers",
     title: "3,200",
-    persent: "+20%",
     icon: profile,
     bnb: "bnb2",
   },
   {
     today: "Crops sold in Kgs",
-    title: "+1,200 Kgs",
-    persent: "-20%",
+    title: "+1,200 ",
     icon: heart,
     bnb: "redtext",
   },
   {
     today: "New Orders",
     title: "13,200",
-    persent: "10%",
     icon: cart,
     bnb: "bnb2",
   },
@@ -196,13 +188,18 @@ const AdminHome = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [societyData, setsocietyData] = useState<societyDataType>();
-  const onChange = (e:any) => console.log(`radio checked:${e.target.value}`);
+
   const {data, loading, error} = useQuery(corporates);
+  const {data:chartData, } = useQuery(corporateSellsStats);
+  const {data:chartDataLine, } = useQuery(adminMonthlyStats);
   const [reverse, setReverse] = useState(false);
   const [role, setrole] = useState("")
   const navigate = useNavigate()
   // const { role }:any = user?.user;
- 
+
+
+  console.log(chartData)
+
   useEffect(() => {
     async function loadData() {
     if (currentUser) {
@@ -211,14 +208,14 @@ const AdminHome = () => {
    }
    loadData()
   }, [currentUser]);
-  
+
   useEffect(() => {
     if (userData === undefined) {
       // Perform the refresh action here
       window.location.reload();
     }
   }, [currentUser]);
-  
+
   useEffect(() => {
     async function loadData() {
       if (userData) {
@@ -227,7 +224,7 @@ const AdminHome = () => {
         setrole(role)
         console.log(role);
         if (role === "A_2") {
-        const society =   data?.corporateSocieties.find((soc:any) => 
+        const society =   data?.corporateSocieties.find((soc:any) =>
              soc.admin.id === currentUser.user.id
         )
         setsocietyData(society)
@@ -235,17 +232,35 @@ const AdminHome = () => {
          // Check if role is defined here
       } else if(role === "A_3") {
           navigate("/farmers_dashboard")
-      } 
+      }
       else {
         console.log("User data is not available yet");
       }
      }
      loadData()
-   
-  }, [currentUser, userData])
-  
 
-  
+  }, [currentUser, userData])
+
+  // Prepare data for the chart
+  const chartOptions: ApexCharts.ApexOptions = {
+    xaxis: {
+      categories: chartData?.corporateSells?.map((item: { crop: any; }) => item.crop),
+    },
+  };
+
+  // Define series data as an array of any[]
+  const chartSeries: any[] = chartData?.corporateSells?.reduce((series: { name: any; data: number[]; }[], item: { name: any; percentage: string; }) => {
+    const existingSeries = series.find((s) => s.name === item.name);
+    if (existingSeries) {
+      existingSeries.data.push(parseFloat(item.percentage));
+    } else {
+      series.push({
+        name: item.name,
+        data: [parseFloat(item.percentage)],
+      });
+    }
+    return series;
+  }, []);
 
   return (
     <div>
@@ -268,7 +283,7 @@ const AdminHome = () => {
                     <Col xs={18}>
                       <span>{c.today}</span>
                       <Title level={3}>
-                        {c.title} <small className={c.bnb}>{c.persent}</small>
+                        {c.title} <small className={c.bnb}></small>
                       </Title>
                     </Col>
                     <Col xs={6}>
@@ -287,6 +302,27 @@ const AdminHome = () => {
           </div>
          )}
         </div>
+      {role === "A_1" && (
+      <Card title="Crop sales statistics">
+          <ReactApexChart
+              options={chartOptions}
+              series={chartSeries}
+              type="bar"
+              height={400}
+          />
+      </Card>
+      )}
+      {role === "A_1" && (
+          <Card title="Crop sales statistics">
+            <ReactApexChart
+                options={chartOptions}
+                series={chartSeries}
+                type="bar"
+                height={400}
+            />
+          </Card>
+      )}
+
     </div>
   )
 }
