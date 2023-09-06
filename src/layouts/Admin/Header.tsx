@@ -11,7 +11,7 @@ import {
   Avatar,
   Input,
   Space,
-  Typography,
+  Typography, Modal,
 } from "antd";
 import type { MenuProps } from "antd";
 import {
@@ -23,6 +23,8 @@ import {
 
 import { NavLink, Link } from "react-router-dom";
 import { Colors } from "../../constants/Colors";
+import {useSelector} from "react-redux";
+import {selectCurrentUser} from "../../app/AuthSlice";
 // import avtar from "../../assets/images/team-2.jpg";
 
 const bell = [
@@ -215,45 +217,6 @@ const setting = [
   </svg>,
 ];
 
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        1st menu item
-      </a>
-    ),
-  },
-  {
-    key: "2",
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.aliyun.com"
-      >
-        2nd menu item (disabled)
-      </a>
-    ),
-    icon: <StarOutlined />,
-    disabled: true,
-  },
-  {
-    key: "4",
-    danger: true,
-    icon: <LogoutOutlined />,
-    label: "Log out",
-    onClick:() => {
-      localStorage.clear()
-      window.location.reload()
-    }
-  },
-];
-
 interface HeaderProps {
   // placement:(params: any) => any;
   name: String;
@@ -262,6 +225,17 @@ interface HeaderProps {
   handleSidenavColor: any;
   handleSidenavType: any;
   handleFixedNavbar: any;
+}
+
+
+type userType = {
+  email:String,
+  firstName:String,
+  fullName:String,
+  id:String,
+  phoneNumber:String,
+  role:any,
+  username:String,
 }
 
 function Header({
@@ -277,12 +251,61 @@ function Header({
 
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
+  const currentUser = useSelector(selectCurrentUser);
+  const [userData, setuserData] = useState<userType>(currentUser?.user);
+  const [modal, contextHolder] = Modal.useModal();
 
+  useEffect(() => {
+    if (currentUser) {
+      setuserData(currentUser?.user)
+    } else {
+      console.log("User data is not available yet");
+    }
+  }, [currentUser, userData]);
   useEffect(() => window.scrollTo(0, 0));
 
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
 
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+          <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="#"
+          >
+            {userData?.email}
+          </a>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+          <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.aliyun.com"
+          >
+            2nd menu item (disabled)
+          </a>
+      ),
+      icon: <StarOutlined />,
+      disabled: true,
+    },
+    {
+      key: "4",
+      danger: true,
+      icon: <LogoutOutlined />,
+      label: "Log out",
+      onClick:() => {
+        localStorage.clear()
+        window.location.reload()
+      }
+    },
+  ];
   return (
     <>
       <div className="setting-drwer" onClick={showDrawer}>
@@ -307,7 +330,7 @@ function Header({
         </Col>
         <Col span={24} md={18} className="header-control">
           {/* <Badge size="small" count={4}>
-           
+
           </Badge> */}
           {/* <Button type="link" onClick={showDrawer}>
             {logsetting}
@@ -423,7 +446,7 @@ function Header({
             <a onClick={(e) => e.preventDefault()}>
               <Space>
                 <Avatar size={40} style={{ backgroundColor: Colors.primary }}>
-                  USER
+                  {userData?.email?.charAt(0).toLocaleUpperCase()}
                 </Avatar>
               </Space>
             </a>

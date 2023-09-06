@@ -325,3 +325,14 @@ query calculateMonthlyPercentage{
   }
   }
 `
+
+export const  meCorporate = gql
+`
+query mecorporate($id: String!){
+  meCorporateCropSells(id:$id){
+    name
+    crop
+    percentage
+  }
+}
+`

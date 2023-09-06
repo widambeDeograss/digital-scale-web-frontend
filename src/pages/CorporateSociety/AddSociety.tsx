@@ -12,12 +12,6 @@ import {
   Radio,
 } from "antd";
 import Select from "react-select";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
 import { Colors } from "../../constants/Colors";
 import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";

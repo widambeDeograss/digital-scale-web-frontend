@@ -247,12 +247,7 @@ function Sidenav({ color }: colors) {
              <span className="label">Crops list</span>
            </NavLink>
          </Menu.Item>
-         <Menu.Item key="7">
-           <NavLink to="/AddCrops">
-             <span className="icon">{signin}</span>
-             <span className="label">Add crops</span>
-           </NavLink>
-         </Menu.Item>
+
           </>
         )}
            {role === "A_2" && (
