@@ -35,6 +35,7 @@ import {
   LogoutOutlined,
   FacebookFilled,
 } from "@ant-design/icons";
+import ReceiptModal from "../../components/ReceiptModal";
 
 type societyDataType = {
   id: String;
@@ -58,7 +59,24 @@ type userType = {
   role: any;
   username: String;
 };
-
+type   receiptData ={
+  id: string;
+  quantityInKg: string;
+  totalPay: string;
+  saledate: string;
+  cropSold: {
+    crop: {
+      name: string;
+      priceperkg: string;
+      moisturePercentage: string;
+    };
+    corporate: {
+      name: string;
+      region: string;
+      district: string;
+    };
+  };
+};
 const { Column } = Table;
 
 const FarmerDashboard = () => {
@@ -75,6 +93,8 @@ const FarmerDashboard = () => {
   const { data: meFarmerdata } = useQuery(meFarmer, {
     variables: { farmer: currentUser?.user?.email },
   });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [receiptToView, setReceiptToView] = useState<receiptData | null>()
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -89,8 +109,22 @@ const FarmerDashboard = () => {
 
   // Simulate setting the role to undefined after a delay
   setTimeout(() => {
-   
-  }, 5000); 
+
+  }, 5000);
+
+  const openReceiptModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeReceiptModal = () => {
+    setModalVisible(false);
+  };
+  const viewReceipt = async (id:String) => {
+    const rscdata = await data?.farmerCropSale.find((soc: any) => soc.id === id);
+    setReceiptToView(rscdata);
+    openReceiptModal()
+    console.log(receiptToView)
+  }
 
   if (loading) {
     return <h1>loading...</h1>;
@@ -98,6 +132,8 @@ const FarmerDashboard = () => {
 
   console.log(data);
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div>
       <Main>
@@ -178,11 +214,16 @@ const FarmerDashboard = () => {
                       <Column title="Quantity in Kgs" dataIndex="quantityInKg" key="id" />
                       <Column title="Pay out in Tzs" dataIndex="totalPay" key="id" />
                       <Column
-                        title="Corporate Society"
-                        render={(crop) =>  <Button             
+                          dataIndex="id" key="id"
+                          title="Corporate Society"
+                        render={(id) =>  <Button
+                        onClick={() => {
+
+                          viewReceipt(id)
+                        }}
                           >View</Button>}
                       />
-                   
+
                     </Table>
                   </div>
                 </Card>
@@ -212,7 +253,7 @@ const FarmerDashboard = () => {
             </div>
             <div className="w-full h-0.5 bg-blue-500"></div>
 
-
+          <ReceiptModal visible={modalVisible} onCancel={closeReceiptModal} receiptData={receiptToView} />
           </div>
         </div>
       </Main>
