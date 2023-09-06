@@ -174,7 +174,8 @@ type societyDataType = {
   district:String,
   region:String,
   farmersSet:Array<any>,
-  corporatecropsSet:Array<any>
+  corporatecropsSet:Array<any>,
+  admin:any
 }
 type userType = {
 email:String,
@@ -190,7 +191,6 @@ const AdminHome = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [userData, setuserData] = useState<userType>(currentUser?.user);
   const [societyData, setsocietyData] = useState<societyDataType>();
-
   const {data, loading, error} = useQuery(corporates);
   const {data:chartData, loading:loadcharts } = useQuery(corporateSellsStats);
   const {data:chartDataLine, } = useQuery(adminMonthlyStats);
@@ -226,6 +226,12 @@ const AdminHome = () => {
       if (userData) {
         // window.location.reload()
         const  role  = await userData.role;
+        const cachedData = sessionStorage.getItem(`societyData_${currentUser.user.id}`);
+        if (cachedData) {
+          setsocietyData(JSON.parse(cachedData));
+          setrole(role)
+          return;
+        }
         setrole(role)
         console.log(role);
         if (role === "A_2") {
@@ -233,6 +239,7 @@ const AdminHome = () => {
              soc.admin.id === currentUser.user.id
         )
         setsocietyData(society)
+          sessionStorage.setItem(`societyData_${currentUser.user.id}`, JSON.stringify(society));
         }
          // Check if role is defined here
       } else if(role === "A_3") {
@@ -308,6 +315,7 @@ const AdminHome = () => {
     },
   ];
   console.log(meCorporateSociety)
+  console.log(role)
   if(loadcharts  || loadcorporate){
     return (
         <h1>Loading.....</h1>
@@ -354,6 +362,7 @@ const AdminHome = () => {
              <h1 className=" font-bold md:text-2xl sm:text-lg">{societyData?.name}</h1>
             <h3 className=" font-light md:text-sm sm:text-xs ">Mkoa: {societyData?.region}</h3>
             <h3 className=" font-light md:text-sm sm:text-xs mb-2">Wilaya: {societyData?.district}</h3>
+            <h3 className=" font-bold md:text-sm sm:text-xs mb-2">Admin: {societyData?.admin?.fullName}   ||  Phone: {societyData?.admin?.phoneNumber}</h3>
             <hr/>
             <Row className="rowgap-vbox mt-2" gutter={[24, 0]}>
                   <Col

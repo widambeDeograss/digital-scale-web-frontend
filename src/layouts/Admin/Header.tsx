@@ -289,7 +289,7 @@ function Header({
               rel="noopener noreferrer"
               href="https://www.aliyun.com"
           >
-            2nd menu item (disabled)
+            Admin
           </a>
       ),
       icon: <StarOutlined />,

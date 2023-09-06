@@ -74,6 +74,7 @@ query {
      admin{
        id
        fullName
+       phoneNumber
      }
      createdAt
      region
