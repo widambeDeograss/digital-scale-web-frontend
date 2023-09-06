@@ -50,7 +50,7 @@ const Societies = () => {
   const [role, setrole] = useState("");
   const navigate = useNavigate();
   console.log(data);
-  
+
 
   if (loading) {
    return(
@@ -91,14 +91,17 @@ const Societies = () => {
                      <Column title="District" dataIndex="district" key="district" />
                      <Column title="createdAt" dataIndex="createdAt" key="createdAt" />
                   <Column
-     
-                    render={(crop) =>  <Button
-                    
-                    onClick={ () => navigate("/corporate_descript")}
-                    >View</Button>}
+                      dataIndex="id"
+                      key="id"
+                      render={(id) =>  <Button
+                      onClick={ () => navigate("/corporate_descript", {state:{
+                            copId:id
+                        }})}
+                    >View</Button
+                    >}
                   />
-                 
-                
+
+
                   {/* <Column
                       title="Roles"
                       dataIndex="roles"
@@ -113,7 +116,7 @@ const Societies = () => {
                         </>
                       )}
                     /> */}
-                  {/* 
+                  {/*
                     {userRoles[0] === 1 ? (
                       <Column
                         title="Actions"
@@ -123,13 +126,13 @@ const Societies = () => {
                             <Button
                               type="dashed"
                               onClick={() => {
-                                
+
                               }}
                             >
                               Add Role
                             </Button>
-  
-                        
+
+
                           </Space>
                         )}
                       />

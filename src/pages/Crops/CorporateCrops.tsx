@@ -12,14 +12,6 @@ import {
   Empty,
   Table
 } from "antd";
-import Select from "react-select";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
-import { Colors } from "../../constants/Colors";
 import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
@@ -41,7 +33,7 @@ type farmerListType = {
     farmersSet: any;
     corporatecropsSet:any
   };
-  
+
 const { Column, ColumnGroup } = Table;
 const CorporateCrops = () => {
     const { Title, Text } = Typography;
@@ -54,7 +46,7 @@ const CorporateCrops = () => {
     const [openMOdal, setopenMOdal] = useState(false);
     const [role, setrole] = useState("");
     const navigate = useNavigate();
-  
+
     useEffect(() => {
       if (currentUser) {
         const { role } = currentUser.user;
@@ -72,9 +64,9 @@ const CorporateCrops = () => {
         console.log("User data is not available yet");
       }
     }, [currentUser]);
-  
+
     console.log(societyData);
-    
+
     if (societyData?.corporatecropsSet?.length === 0) {
       return (
         <Empty
@@ -138,7 +130,7 @@ const CorporateCrops = () => {
                     key="crop.id"
                     render={(crop) => <div>{crop?.moisturePercentage} </div>}
                   />
-                
+
                   {/* <Column
                       title="Roles"
                       dataIndex="roles"
@@ -153,7 +145,7 @@ const CorporateCrops = () => {
                         </>
                       )}
                     /> */}
-                  {/* 
+                  {/*
                     {userRoles[0] === 1 ? (
                       <Column
                         title="Actions"
@@ -163,13 +155,13 @@ const CorporateCrops = () => {
                             <Button
                               type="dashed"
                               onClick={() => {
-                                
+
                               }}
                             >
                               Add Role
                             </Button>
-  
-                        
+
+
                           </Space>
                         )}
                       />

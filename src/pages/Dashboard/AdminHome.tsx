@@ -229,7 +229,7 @@ const AdminHome = () => {
         setrole(role)
         console.log(role);
         if (role === "A_2") {
-        const society =   data?.corporateSocieties.find((soc:any) =>
+        const society =  await data?.corporateSocieties.find((soc:any) =>
              soc.admin.id === currentUser.user.id
         )
         setsocietyData(society)
@@ -269,12 +269,12 @@ const AdminHome = () => {
 
   const chartOptionsCorporate: ApexCharts.ApexOptions = {
     xaxis: {
-      categories: meCorporateSociety?.corporateSells?.map((item: { crop: any; }) => item.crop),
+      categories: meCorporateSociety?.meCorporateCropSells?.map((item: { crop: any; }) => item.crop),
     },
   };
 
   // Define series data as an array of any[]
-  const chartSeriesCorporate: any[] = meCorporateSociety?.corporateSells?.reduce((series: { name: any; data: number[]; }[], item: { name: any; percentage: string; }) => {
+  const chartSeriesCorporate: any[] = meCorporateSociety?.meCorporateCropSells?.reduce((series: { name: any; data: number[]; }[], item: { name: any; percentage: string; }) => {
     const existingSeries = series.find((s) => s.name === item.name);
     if (existingSeries) {
       existingSeries?.data.push(parseFloat(item.percentage));
@@ -307,7 +307,7 @@ const AdminHome = () => {
       data: chartDataLine?.calculateMonthlyPercentage?.map((item: { percentage: any; }) => item.percentage),
     },
   ];
-
+  console.log(meCorporateSociety)
   if(loadcharts  || loadcorporate){
     return (
         <h1>Loading.....</h1>
@@ -448,6 +448,17 @@ const AdminHome = () => {
               </Col>
 
             </Row>
+
+            <div className="mt-10">
+              <Card title="Crop sales statistics">
+                <ReactApexChart
+                    options={chartOptionsCorporate}
+                    series={chartSeriesCorporate}
+                    type="bar"
+                    height={300}
+                />
+              </Card>
+            </div>
           </div>
          )}
         </div>
