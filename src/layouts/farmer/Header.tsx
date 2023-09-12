@@ -33,6 +33,30 @@ export const HeaderLs = () => {
     }
   }, [currentUser, userData]);
 
+  useEffect(() => {
+
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      const leftSide:any = document.querySelector('.ht');
+
+      if (screenWidth < 768) {
+        // @ts-ignore
+        leftSide.style.display = 'none';
+      } else {
+        // @ts-ignore
+        leftSide.style.display = 'flex';
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const confirm = () => {
     modal.confirm({
       title: 'Confirm',
@@ -51,15 +75,15 @@ export const HeaderLs = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl  font-extrabold tracking-widest text-white">
+        <div className="md:ml-0 sm:-ml-96">
+          <h1 className="text-3xl font-extrabold tracking-widest text-white md:text-3xl ">
             {" "}
             e-Mzani
           </h1>
           <p className="text-base"> A bluetooth anabled digital scale</p>
         </div>
         <div className="p-2">
-          <ul className="flex">
+          <ul className="flex ht">
             <li className="flex flex-col items-center p-2 border-l-[1px] border-indigo-200 ">
               <Avatar size={30}>{userData?.email?.charAt(0).toLocaleUpperCase()}</Avatar>
               <span className="text-sm">{userData?.email}</span>

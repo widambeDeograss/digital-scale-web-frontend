@@ -231,7 +231,7 @@ const FarmerDashboard = () => {
             </div>
             <div className="flex justify-between p-4">
               <div>
-                <h3 className="text-xl">Terms And Condition :</h3>
+                <h3 className="text-base">Terms And Condition :</h3>
                 <ul className="text-xs list-disc list-inside">
                   <li>
                     You have to be registered in a corporate to use the scale.
@@ -246,10 +246,10 @@ const FarmerDashboard = () => {
                   </li>
                 </ul>
               </div>
-              <div className="p-4">
-                <h3>Signature</h3>
-                <div className="text-4xl italic bg-blue-500">AAA</div>
-              </div>
+              {/*<div className="p-4">*/}
+              {/*  <h3>Signature</h3>*/}
+              {/*  <div className="text-4xl italic bg-blue-500">AAA</div>*/}
+              {/*</div>*/}
             </div>
             <div className="w-full h-0.5 bg-blue-500"></div>
 
