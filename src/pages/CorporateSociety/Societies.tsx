@@ -29,6 +29,7 @@ import { corporates } from "../../app/Query";
 import { allFarmers } from "../../app/Query";
 import { type } from "os";
 import { useNavigate } from "react-router-dom";
+import CorporateEditModal from "../../components/CorporateEditModal";
 
 
 
@@ -52,6 +53,8 @@ const Societies = () => {
   const [societyData, setsocietyData] = useState<societyDataType>();
   const { data, loading, error } = useQuery(corporates);
   const [reverse, setReverse] = useState(false);
+  const [corporateEdit, setcorporateEdit] = useState(false);
+  const [coptoEdit, setcoptoEdit] = useState();
   const [role, setrole] = useState("");
   const navigate = useNavigate();
   console.log(data);
@@ -107,9 +110,12 @@ const Societies = () => {
                  >View</Button
                  >
                  <Button
-                   onClick={ () => navigate("/corporate_descript", {state:{
-                         copId:id
-                     }})}
+                   onClick={ () => {
+                    console.log(id);
+                    
+                    setcoptoEdit(id);
+                    setcorporateEdit(true)
+                   }}
                  >Edit</Button
                  >
                      </div>
@@ -159,6 +165,8 @@ const Societies = () => {
             </Card>
         </Col>
         </Row>
+      <CorporateEditModal openMOdal={corporateEdit} handleCancel={()=>setcorporateEdit(!corporateEdit)} corporate={coptoEdit}/>
+
     </div>
   )
 }

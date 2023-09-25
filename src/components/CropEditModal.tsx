@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal, Input, message } from "antd";
-import { useQuery, useMutation } from "@apollo/client";
-import { allCrops, addCrops } from "../app/Query";
+import { useQuery, useMutation,  } from "@apollo/client";
+import { allCrops, addCrops, editCrops } from "../app/Query";
 import Select from "react-select";
 
 type modalType = {
@@ -19,7 +19,7 @@ const CropsEditModal = ({
   const [role, setrole] = useState();
   const [crops, setcrops] = useState([]);
   const [modalText, setModalText] = useState("Content of the modal");
-  const [addCrop, { data, loading }] = useMutation(addCrops);
+  const [editCrop, { data, loading }] = useMutation(editCrops);
   const [errorMsg, setErrorMsg] = useState<String>();
   console.log(crop);
   
@@ -34,8 +34,9 @@ const CropsEditModal = ({
     try {
       console.log(values);
 
-      const response = await addCrop({
+      const response = await editCrop({
         variables: {
+          id:crop,
           name: values.name,
           priceperkg: values.priceperKg,
           moisturePercentage: values.moisturePercentage,
@@ -53,7 +54,7 @@ const CropsEditModal = ({
         setErrorMsg(error?.validationErrors[0].messages[0]);
       }
     } catch (error) {
-      message.warning("failed to add role try again lated");
+      message.warning("failed to edit crop try again lated");
     }
     setConfirmLoading(false);
   };
@@ -61,7 +62,7 @@ const CropsEditModal = ({
   return (
     <div>
       <Modal
-        title="Edit crop"
+        title={`Edit crop: ${crop}`}
         visible={openMOdal}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}

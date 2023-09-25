@@ -23,6 +23,7 @@ import {
   createSociety,
 } from "../../app/Query";
 import { useNavigate } from "react-router-dom";
+import CorporateEditModal from "../../components/CorporateEditModal";
 
 type societyDataType = {
   id: String;
@@ -42,6 +43,7 @@ const AddSociety = () => {
   const [addSoc, { data, loading }] = useMutation(createSociety);
   const { data: corporate } = useQuery(corporates);
   const [usersToselect, setusersToselect] = useState([]);
+
   const [role, setrole] = useState("");
   const navigate = useNavigate();
 
@@ -203,6 +205,7 @@ const AddSociety = () => {
           </Form.Item>
         </Form>
       </Card>
+
     </div>
   );
 };

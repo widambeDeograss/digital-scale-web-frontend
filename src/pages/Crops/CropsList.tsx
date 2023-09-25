@@ -111,7 +111,7 @@ const CorporateCrops = () => {
             
                  <Button
                    onClick={ () => {
-                    setReverse(crops);
+                    setcroptoEdit(id);
                     setopenCropEdit(true);
                    }}
                      type="dashed" color="danger"

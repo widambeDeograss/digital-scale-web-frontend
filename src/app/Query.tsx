@@ -349,3 +349,37 @@ query stats{
 }
 
 `
+
+export const corporateBuys = gql
+`
+query corporateSellsReceipt($id: String!){
+  corporateSellsReceipt(id:$id){
+    id
+    cropSold{
+      crop{
+        name
+        priceperkg
+      }
+    }
+    farmer{
+farmer{
+  email
+  fullName
+}}
+    saledate
+ totalPay
+    quantityInKg
+  }
+}
+`
+
+export const editCrops = gql `
+
+mutation editCrops($id: String!,$name: String!, $priceperkg: Float!, $moisturePercentage: Float!){
+  editCrops(id:$id, name:$name, priceperkg:$priceperkg, moisturePercentage:$moisturePercentage){
+    errors,
+    success
+  }
+}
+
+`

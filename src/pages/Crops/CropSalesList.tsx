@@ -23,7 +23,7 @@ import { Colors } from "../../constants/Colors";
 import { selectCurrentUser } from "../../app/AuthSlice";
 import { useSelector } from "react-redux";
 import { useMutation, gql, useQuery } from "@apollo/client";
-import { allCrops, AddFarmer, corporates } from "../../app/Query";
+import { allCrops, AddFarmer, corporates, corporateBuys } from "../../app/Query";
 import { useNavigate } from "react-router-dom";
 import CorporateAddCropModal from "../../components/CorporateAddCropModal";
 import CropsAddModal from "../../components/CropAddModal";
@@ -44,6 +44,12 @@ type farmerListType = {
     corporatecropsSet:any
   };
 
+  const renderDateTime = (dateString:any) => {
+    const dateTime = new Date(dateString);
+    return dateTime.toLocaleDateString();
+  };
+
+
 const { Column, ColumnGroup } = Table;
 const CropSalesList = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -57,6 +63,9 @@ const CropSalesList = () => {
     const [croptoEdit, setcroptoEdit] = useState();
     const [role, setrole] = useState("");
     const navigate = useNavigate();
+    const { data: buys } = useQuery(corporateBuys, {
+        variables: { id: societyData?.id},
+      });
 
     useEffect(() => {
       if (currentUser) {
@@ -68,6 +77,8 @@ const CropSalesList = () => {
           const society = data?.corporateSocieties.find(
             (soc: any) => soc.admin.id === currentUser.user.id
           );
+
+          setsocietyData(society);
         }
         // Check if role is defined here
       } else {
@@ -75,7 +86,8 @@ const CropSalesList = () => {
       }
     }, [currentUser]);
 
-
+   console.log(buys);
+   
 
   return (
     <div>
@@ -84,42 +96,41 @@ const CropSalesList = () => {
         <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="All crops"
-              extra={
-                <>
-                  <Radio.Group  defaultValue="a">
-                    {/* <Radio.Button value="a">REPORT</Radio.Button> */}
-                    <Radio.Button value="a"
-                     onClick={() => setopenMOdal(true)}
-                    >Add</Radio.Button>
-                  </Radio.Group>
-                </>
-              }
+              title="All Crop sales"
+            //   extra={
+            //     <>
+            //       <Radio.Group  defaultValue="a">
+            //         {/* <Radio.Button value="a">REPORT</Radio.Button> */}
+            //         <Radio.Button value="a"
+            //          onClick={() => setopenMOdal(true)}
+            //         >Add</Radio.Button>
+            //       </Radio.Group>
+            //     </>
+            //   }
             >
-              <div className="table-">
-                <Table dataSource={crops?.crops}>
-                  <Column title="Crop id" dataIndex="id" key="id" />
-                  <Column title="Crop name" dataIndex="name" key="name" />
-                  <Column title="priceperkg" dataIndex="priceperkg" key="priceperkg" />
-
-                  <Column title="moisturePercentage" dataIndex="moisturePercentage" key="moisturePercentage" />
-                  <Column
-                      dataIndex="id"
-                      key="id"
-                      render={(id) =>
-                        <div>
-            
-                 <Button
-                   onClick={ () => {
-                    setReverse(crops);
-                    setopenCropEdit(true);
-                   }}
-                     type="dashed" color="danger"
-                 >Edit</Button
-                 >
-                     </div>
-                      }
+              <div className="table-responsive">
+                <Table dataSource={buys?.corporateSellsReceipt} sortDirections={['ascend']}>
+                  <Column title="Receipt id" dataIndex="id" key="id" />
+                  <Column title="Crop name" 
+                  dataIndex="cropSold"
+                  key="cropSold"
+                  render={(crop) => <div>{crop?.crop.name} </div>}
                   />
+                  <Column title="priceperkg" 
+                  dataIndex="cropSold"
+                  key="cropSold"
+                  render={(crop) => <div>{crop?.crop.priceperkg} </div>}
+                  />
+
+                  <Column title="Farmer"
+                  dataIndex="farmer"
+                  key="farmer"
+                  render={(farmer) => <div>{farmer?.farmer.fullName} </div>}
+                  />
+                  <Column title="Date" dataIndex="saledate" key="id" render={(date) => <div>{renderDateTime(date)}</div>} />
+                  <Column title="Quantity" dataIndex="quantityInKg" key="quantityInKg" />
+                  <Column title="Total payout" dataIndex="totalPay" key="totalPay" />
+           
                  
                 </Table>
               </div>
