@@ -8,14 +8,12 @@ type modalType = {
   openMOdal: any;
   handleCancel: any;
   corporate: any;
-  corporateCropList: any;
 };
 
-const CropsAddModal = ({
+const CorporateEditModal = ({
   openMOdal,
   handleCancel,
   corporate,
-  corporateCropList,
 }: modalType) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [role, setrole] = useState();
@@ -23,7 +21,8 @@ const CropsAddModal = ({
   const [modalText, setModalText] = useState("Content of the modal");
   const [addCrop, { data, loading }] = useMutation(addCrops);
   const [errorMsg, setErrorMsg] = useState<String>();
-
+  console.log(corporate);
+  
   useEffect(() => {
     async function loadData() {}
     loadData();
@@ -62,8 +61,8 @@ const CropsAddModal = ({
   return (
     <div>
       <Modal
-        title="Add crops"
-        open={openMOdal}
+        title="Edit crop"
+        visible={openMOdal}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={[<div></div>]}
@@ -119,7 +118,7 @@ const CropsAddModal = ({
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit" loading={confirmLoading}>
-              {confirmLoading ? "Adding crop..." : "Add crop"}
+              {confirmLoading ? "Editing crop..." : "Edit crop"}
             </Button>
           </Form.Item>
         </Form>
@@ -128,4 +127,4 @@ const CropsAddModal = ({
   );
 };
 
-export default CropsAddModal;
+export default CorporateEditModal;

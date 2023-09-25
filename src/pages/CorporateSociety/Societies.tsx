@@ -40,6 +40,11 @@ type societyDataType = {
   farmersSet: any;
 };
 
+const renderDateTime = (dateString:any) => {
+  const dateTime = new Date(dateString);
+  return dateTime.toLocaleDateString();
+};
+
 const {Column} = Table;
 const Societies = () => {
   const { Title, Text } = Typography;
@@ -69,8 +74,8 @@ const Societies = () => {
               extra={
                 <>
                   <Radio.Group  defaultValue="a">
-                    <Radio.Button value="a">REPORT</Radio.Button>
-                    <Radio.Button value="b"
+                    {/* <Radio.Button value="a">REPORT</Radio.Button> */}
+                    <Radio.Button value="a"
                     onClick={() => navigate("/addCorporates")}
                     >Add</Radio.Button>
                   </Radio.Group>
@@ -89,16 +94,26 @@ const Societies = () => {
                   />
                      <Column title="Region" dataIndex="region" key="region" />
                      <Column title="District" dataIndex="district" key="district" />
-                     <Column title="createdAt" dataIndex="createdAt" key="createdAt" />
+                     <Column title="createdAt" dataIndex="createdAt" key="createdAt" render={(date) => <div>{renderDateTime(date)}</div>} />
                   <Column
                       dataIndex="id"
                       key="id"
-                      render={(id) =>  <Button
-                      onClick={ () => navigate("/corporate_descript", {state:{
-                            copId:id
-                        }})}
-                    >View</Button
-                    >}
+                      render={(id) =>
+                        <div>
+                        <Button
+                   onClick={ () => navigate("/corporate_descript", {state:{
+                         copId:id
+                     }})}
+                 >View</Button
+                 >
+                 <Button
+                   onClick={ () => navigate("/corporate_descript", {state:{
+                         copId:id
+                     }})}
+                 >Edit</Button
+                 >
+                     </div>
+                      }
                   />
 
 

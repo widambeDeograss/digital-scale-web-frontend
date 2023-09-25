@@ -22,7 +22,7 @@ import { useMutation, gql } from "@apollo/client";
 import { login } from "../../app/Query";
 import { loginAuth } from "../../app/AuthSlice";
 import { useNavigate, Link } from "react-router-dom";
-import lott from "../../assets/lotties/singing-contract.json"
+import lott from "../../assets/lotties/animation_lmfbz94j.json"
 import Lottie from "lottie-react";
 
 const { Content, Sider } = Layout;
@@ -141,14 +141,16 @@ export default function LoginPage() {
               }}
               className="left-side"
           >
-              <Lottie
+            <div className="ml-24">
+            <Lottie
                  animationData={lott}
-                  height={200}
-                  width={200}
+                  height={500}
+                  width={500}
                  loop={true}
               />
+            </div>
               {/* Add aligned content about the digital scale */}
-              <div style={{ marginTop: '20px' }}>
+              <div style={{ marginTop: '2px' }}>
                   <h1>e-Mzani</h1>
                   <h3>A bluetooth enabled digital scale</h3>
                   <p>Measure everything with precision.</p>

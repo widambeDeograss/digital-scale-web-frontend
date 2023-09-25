@@ -47,6 +47,12 @@ type userType = {
   role:any,
   username:String,
   }
+
+  const renderDateTime = (dateString:any) => {
+    const dateTime = new Date(dateString);
+    return dateTime.toLocaleDateString();
+  };
+
 const { Column, ColumnGroup } = Table;
 const Farmers = () => {
   const { Title, Text } = Typography;
@@ -117,7 +123,7 @@ const Farmers = () => {
             extra={
               <>
                 <Radio.Group onChange={onChange} defaultValue="a">
-                  <Radio.Button value="a">REPORT</Radio.Button>
+                  {/* <Radio.Button value="a">REPORT</Radio.Button> */}
                   {/* <Button 
                   onClick={() => navigate("/addfarmer_to_society")}
                   >Add</Button> */}
@@ -144,7 +150,7 @@ const Farmers = () => {
                   title="Date Joined"
                   dataIndex="farmer"
                   key="farmer.id"
-                  render={(farmer) => <div>{farmer?.createdAt} </div>}
+                  render={(farmer) => <div>{renderDateTime(farmer?.createdAt)} </div>}
                 />
                 <Column
                   title="Corporate Society"
@@ -203,7 +209,6 @@ const Farmers = () => {
               extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="a">
-                    <Radio.Button value="a">REPORT</Radio.Button>
                     <Radio.Button value="b"
                      onClick={() => navigate("/addfarmer_to_society")}
                     >Add</Radio.Button>
@@ -236,7 +241,7 @@ const Farmers = () => {
                     title="Date Joined"
                     dataIndex="farmer"
                     key="farmer.id"
-                    render={(farmer) => <div>{farmer?.createdAt} </div>}
+                    render={(farmer) => <div>{renderDateTime(farmer?.createdAt)} </div>}
                   />
                   {/* <Column
                       title="Roles"

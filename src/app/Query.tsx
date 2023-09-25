@@ -337,3 +337,15 @@ query mecorporate($id: String!){
   }
 }
 `
+export const admStats = gql
+`
+query stats{
+  admStatCounts{
+    farmers
+    crops
+    cropsKgs
+    monthSales
+  }
+}
+
+`

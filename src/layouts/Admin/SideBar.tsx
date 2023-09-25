@@ -223,7 +223,7 @@ function Sidenav({ color }: colors) {
                 background: page === "farmers" ? color : "",
               }}
             >
-              {billing}
+              {profile}
             </span>
             <span className="label">Farmers</span>
           </NavLink>
@@ -242,7 +242,7 @@ function Sidenav({ color }: colors) {
                  background: page === "profile" ? color : "",
                }}
              >
-               {profile}
+               {tables}
              </span>
              <span className="label">Crops list</span>
            </NavLink>
@@ -251,12 +251,20 @@ function Sidenav({ color }: colors) {
           </>
         )}
            {role === "A_2" && (
-        <Menu.Item key="8">
+          <>
+           <Menu.Item key="8">
           <NavLink to="/corporateCrops">
             <span className="icon">{signup}</span>
             <span className="label">Corporate crops</span>
           </NavLink>
         </Menu.Item>
+        <Menu.Item key="8">
+          <NavLink to="/corporate_sales">
+            <span className="icon">{signup}</span>
+            <span className="label">Corporate Buys</span>
+          </NavLink>
+        </Menu.Item>
+          </>
         )}
       </Menu>
       <div className="aside-footer">

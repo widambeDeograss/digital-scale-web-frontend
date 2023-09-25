@@ -45,7 +45,7 @@ type farmerListType = {
   };
 
 const { Column, ColumnGroup } = Table;
-const CorporateCrops = () => {
+const CropSalesList = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [societyData, setsocietyData] = useState<societyDataType>();
     const [CropsData, setCropsData] = useState<farmerListType>();
@@ -120,43 +120,7 @@ const CorporateCrops = () => {
                      </div>
                       }
                   />
-                  {/* <Column
-                      title="Roles"
-                      dataIndex="roles"
-                      key="roles"
-                      render={(roles) => (
-                        <>
-                          {roles?.map((role) => (
-                            <Tag color="blue" key={role}>
-                              {role === 1 ? "admin" : "user"}
-                            </Tag>
-                          ))}
-                        </>
-                      )}
-                    /> */}
-                  {/*
-                    {userRoles[0] === 1 ? (
-                      <Column
-                        title="Actions"
-                        key="action"
-                        render={(_, record) => (
-                          <Space size="middle">
-                            <Button
-                              type="dashed"
-                              onClick={() => {
-
-                              }}
-                            >
-                              Add Role
-                            </Button>
-
-
-                          </Space>
-                        )}
-                      />
-                    ) : (
-                      <div></div>
-                    )} */}
+                 
                 </Table>
               </div>
             </Card>
@@ -168,5 +132,5 @@ const CorporateCrops = () => {
   )
 }
 
-export default CorporateCrops
+export default CropSalesList
 

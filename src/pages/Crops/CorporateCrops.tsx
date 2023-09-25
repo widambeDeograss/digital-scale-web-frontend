@@ -101,8 +101,8 @@ const CorporateCrops = () => {
               extra={
                 <>
                   <Radio.Group  defaultValue="a">
-                    <Radio.Button value="a">REPORT</Radio.Button>
-                    <Radio.Button value="b"
+                    {/* <Radio.Button value="a">REPORT</Radio.Button> */}
+                    <Radio.Button value="a"
                      onClick={() => setopenMOdal(true)}
                     >Add</Radio.Button>
                   </Radio.Group>

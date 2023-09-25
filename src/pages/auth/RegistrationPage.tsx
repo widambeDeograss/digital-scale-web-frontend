@@ -26,7 +26,7 @@ import { login, Register } from "../../app/Query";
 import { useNavigate, Link } from "react-router-dom";
 import { notification } from "../../app/Notifications";
 import Lottie from "lottie-react";
-import lott from "../../assets/lotties/packaging-for-delivery.json";
+import lott from "../../assets/lotties/animation_lmfbz94j.json"
 
 const iconStyles: CSSProperties = {
   color: "rgba(0, 0, 0, 0.2)",
@@ -151,12 +151,14 @@ export const RegistrationPage = () => {
                 }}
                 className="left-side"
             >
-                <Lottie
+             <div className="ml-24">
+             <Lottie
                     animationData={lott}
                     height={200}
                     width={200}
                     loop={true}
                 />
+             </div>
                 {/* Add aligned content about the digital scale */}
                 <div style={{ marginTop: '20px' }}>
                     <h1>e-Mzani</h1>

@@ -79,6 +79,11 @@ type   receiptData ={
 };
 const { Column } = Table;
 
+const renderDateTime = (dateString:any) => {
+  const dateTime = new Date(dateString);
+  return dateTime.toLocaleDateString();
+};
+
 const FarmerDashboard = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [userData, setuserData] = useState<userType>(currentUser?.user);
@@ -181,7 +186,6 @@ const FarmerDashboard = () => {
                           // loading
                           options={[
                             { value: "recent", label: "recent" },
-                            { value: "recent", label: "recent" },
                           ]}
                         />
                         {/* </Radio.Button> */}
@@ -210,7 +214,7 @@ const FarmerDashboard = () => {
                           key="cropSold"
                           render={(crop) => <div>{crop?.crop.moisturePercentage} </div>}
                       />
-                          <Column title="Date" dataIndex="saledate" key="id" />
+                          <Column title="Date" dataIndex="saledate" key="id" render={(date) => <div>{renderDateTime(date)}</div>} />
                       <Column title="Quantity in Kgs" dataIndex="quantityInKg" key="id" />
                       <Column title="Pay out in Tzs" dataIndex="totalPay" key="id" />
                       <Column
@@ -237,12 +241,10 @@ const FarmerDashboard = () => {
                     You have to be registered in a corporate to use the scale.
                   </li>
                   <li>
-                    To be paid by cheque or credit card or direct payment
-                    online.
+                    You can only sale the crops that are registered in the given corporate.
                   </li>
                   <li>
-                    If account is not paid within 7 days the credits details
-                    supplied.
+                   Make sure you are given a sales receipt after salling your crops.
                   </li>
                 </ul>
               </div>

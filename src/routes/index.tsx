@@ -19,6 +19,7 @@ import Societies from '../pages/CorporateSociety/Societies';
 import AddSociety from '../pages/CorporateSociety/AddSociety';
 import CorporateDsc from '../pages/CorporateSociety/CorporateDsc';
 import FarmerDashboard from '../pages/Dashboard/FarmerDashboard';
+import CropSalesList from '../pages/Crops/CropSalesList';
 
 
 type userType = {
@@ -63,6 +64,7 @@ const AppRouter = () => {
           { path: "all_corporates", element:  <Societies/> },
           { path: "addCorporates", element:  <AddSociety/> },
           { path: "corporate_descript", element:  <CorporateDsc/> },
+          { path: "corporate_sales", element:  <CropSalesList/> },
         ],
       },
       {

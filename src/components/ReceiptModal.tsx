@@ -30,7 +30,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ visible, onCancel, receiptD
                 </Descriptions>
 
                 <div className="text-right mt-4">
-                    <p className="text-lg font-semibold text-green-500">Total Pay: ${receiptData?.totalPay}</p>
+                    <p className="text-lg font-semibold text-green-500">Total Pay:{receiptData?.totalPay} Tsh/=</p>
                 </div>
 
                 <div className="text-right mt-4">
