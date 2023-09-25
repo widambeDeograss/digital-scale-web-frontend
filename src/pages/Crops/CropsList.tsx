@@ -96,7 +96,7 @@ const CorporateCrops = () => {
                 </>
               }
             >
-              <div className="table-">
+              <div className="table-responsive">
                 <Table dataSource={crops?.crops}>
                   <Column title="Crop id" dataIndex="id" key="id" />
                   <Column title="Crop name" dataIndex="name" key="name" />

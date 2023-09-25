@@ -182,7 +182,7 @@ function Sidenav({ color }: colors) {
       <div className="brand">
         {/* <img src={logo} alt="" /> */}
         <span className="text-2xl font-bold" style={{ color: Colors.primary }}>
-          e-Mzani
+          e-Mizani
         </span>
       </div>
       <hr />
@@ -261,7 +261,7 @@ function Sidenav({ color }: colors) {
         <Menu.Item key="8">
           <NavLink to="/corporate_sales">
             <span className="icon">{signup}</span>
-            <span className="label">Corporate Buys</span>
+            <span className="label">Transactions</span>
           </NavLink>
         </Menu.Item>
           </>

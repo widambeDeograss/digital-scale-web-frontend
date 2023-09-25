@@ -78,7 +78,7 @@ export const HeaderLs = () => {
         <div className="md:ml-0 sm:-ml-96">
           <h1 className="text-3xl font-extrabold tracking-widest text-white md:text-3xl ">
             {" "}
-            e-Mzani
+            e-Mizani
           </h1>
           <p className="text-base"> A bluetooth anabled digital scale</p>
         </div>

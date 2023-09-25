@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal, Input, message } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
-import { allCrops, addCrops, allUsers } from "../app/Query";
+import { allCrops, addCrops, allUsers, editSociety } from "../app/Query";
 import Select from "react-select";
 import { selectCurrentUser } from "../app/AuthSlice";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ const CorporateEditModal = ({
   const [role, setrole] = useState();
   const [crops, setcrops] = useState([]);
   const [modalText, setModalText] = useState("Content of the modal");
-  const [addCrop, { data, loading }] = useMutation(addCrops);
+  const [editSoc, { data, loading }] = useMutation(editSociety);
   const { data: users, loading: loadingusers, error } = useQuery(allUsers);
   const [errorMsg, setErrorMsg] = useState<String>();
   const [usersToselect, setusersToselect] = useState([]);
@@ -51,30 +51,34 @@ const CorporateEditModal = ({
 
   const onFinish = async (values: any) => {
     setConfirmLoading(true);
-
     try {
+        console.log(corporate);
+        
       console.log(values);
 
-      const response = await addCrop({
+      const response = await editSoc({
         variables: {
+            id:corporate,
+          admin: values.admin.value,
           name: values.name,
-          priceperkg: values.priceperKg,
-          moisturePercentage: values.moisturePercentage,
+          region: values.region,
+          district: values.district,
         },
       });
       console.log(response);
 
-      const { error, success } = response.data.addCrops;
+      const { error, success } = response?.data.editCorporate;
 
       if (success) {
         //NOTIFACTION
-        message.success("crop added successfully");
         window.location.reload();
+        message.success("corporate edited successfully");
+
       } else {
         setErrorMsg(error?.validationErrors[0].messages[0]);
       }
-    } catch (error) {
-      message.warning("failed to add role try again lated");
+    } catch (error: any) {
+      setErrorMsg(error.message);
     }
     setConfirmLoading(false);
   };
@@ -88,7 +92,7 @@ const CorporateEditModal = ({
     <div>
       <Modal
         title={`Edit Corporate: ${corporate}`}
-        visible={openMOdal}
+        open={openMOdal}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={[<div></div>]}

@@ -383,3 +383,13 @@ mutation editCrops($id: String!,$name: String!, $priceperkg: Float!, $moisturePe
 }
 
 `
+
+export const editSociety = gql
+`
+mutation editCorporate($id: String!,$admin: String!, $name: String!, $region: String!, $district: String! ){
+  editCorporate(id:$id,admin:$admin, name:$name, region:$region, district:$district) { 
+    errors	
+   success
+  }
+}
+  `

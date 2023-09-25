@@ -18,7 +18,7 @@ import {
   SearchOutlined,
   StarOutlined,
   LogoutOutlined,
-  FacebookFilled,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
 import { NavLink, Link } from "react-router-dom";
@@ -267,6 +267,20 @@ function Header({
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
 
+  const confirm = () => {
+    modal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Log out from e-Mzani',
+      okText: 'OK',
+      okType:"danger",
+      cancelText: 'cancel',
+      onOk:() => {
+        localStorage.clear();
+        window.location.reload()
+      }
+    });
+  };
 
   const items: MenuProps["items"] = [
     {
@@ -301,11 +315,13 @@ function Header({
       icon: <LogoutOutlined />,
       label: "Log out",
       onClick:() => {
-        localStorage.clear()
-        window.location.reload()
+       confirm()
       }
     },
   ];
+
+  
+ 
   return (
     <>
       <div className="setting-drwer" onClick={showDrawer}>

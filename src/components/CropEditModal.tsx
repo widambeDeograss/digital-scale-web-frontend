@@ -44,12 +44,13 @@ const CropsEditModal = ({
       });
       console.log(response);
 
-      const { error, success } = response.data.addCrops;
+      const { error, success } = response.data.editCrops;
 
       if (success) {
         //NOTIFACTION
-        message.success("crop added successfully");
+        
         window.location.reload();
+        message.success("crop added successfully");
       } else {
         setErrorMsg(error?.validationErrors[0].messages[0]);
       }
